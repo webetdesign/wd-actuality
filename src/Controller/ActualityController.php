@@ -4,7 +4,7 @@ namespace WebEtDesign\ActualityBundle\Controller;
 
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -14,6 +14,14 @@ use WebEtDesign\CmsBundle\Controller\BaseCmsController;
 
 class ActualityController extends BaseCmsController
 {
+    protected $config;
+
+    /**
+     * @inheritDoc
+    */
+    public function __construct($config) {
+        $this->config = $config;
+    }
 
     /**
      * @param Request $request
@@ -51,7 +59,7 @@ class ActualityController extends BaseCmsController
 
         $pager = new Pagerfanta(new DoctrineORMAdapter($qb));
         $pager->setCurrentPage($request->query->get('page', 1));
-        $pager->setMaxPerPage((int) $request->query->get('limit', 9));
+        $pager->setMaxPerPage((int) $request->query->get('limit', $this->config['result_limit']));
 
         return $this->defaultRender([
             'categories' => $categories,

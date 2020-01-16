@@ -3,3 +3,8 @@ services:
     resource: '../../Repository/*'
     autowire: true
     tags: ['doctrine.repository_service']
+
+  WebEtDesign\ActualityBundle\Controller\ActualityController:
+    arguments:
+      - '%wd_actuality.config%'
+    tags: ['controller.service_arguments']

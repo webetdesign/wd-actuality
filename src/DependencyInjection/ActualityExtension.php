@@ -27,6 +27,8 @@ class ActualityExtension extends Extension
 
         $this->registerDoctrineMapping($config);
 
+        $container->setParameter('wd_actuality.config', $config['configuration']);
+
     }
 
     /**

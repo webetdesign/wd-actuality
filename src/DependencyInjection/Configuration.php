@@ -29,6 +29,11 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('media')->cannotBeEmpty()->end()
                     ->end()
                 ->end()
+                ->arrayNode('configuration')->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('result_limit')->defaultValue(9)->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
