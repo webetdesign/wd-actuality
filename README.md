@@ -4,18 +4,35 @@
 
 ```json
 {
-    // composer.json
-    ...
     "repositories": [
-        ...
         {
             "type": "git",
-            "url": "TODO : git url"
+            "url": "https://github.com/webetdesign/wd-actuality.git"
         }
     ],
-    ...
 }
 ```
+> Register the repository into your `composer.json`.
+```json
+{
+  "require": {
+    "webetdesign/actuality-bundle": "^1.0",
+  }
+}
+```
+> Require the bundle.
+
+
+```php
+<?php
+
+return [
+    ...
+    WebEtDesign\ActualityBundle\ActualityBundle::class => ['all' => true],
+    ...
+];
+```
+> Should be done by composer, register the bundle in `config/bundles.php` if not.
 
 ```yaml
 # config/packages/wd_actuality.yaml
@@ -119,3 +136,7 @@ web_et_design_cms:
         # TODO add contents according to your needs
         - { label: 'title', code: 'title', type: 'TEXT' }
 ```
+
+> You can now create the pages in admin.
+
+
