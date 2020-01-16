@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
+use Symfony\Component\Validator\Constraints\NotNull;
 use WebEtDesign\CmsBundle\Utils\SmoFacebookAdminTrait;
 use WebEtDesign\CmsBundle\Utils\SmoTwitterAdminTrait;
 
@@ -70,7 +71,12 @@ final class ActualityAdmin extends AbstractAdmin
                     'hide_context' => true,
                 ],
             ])
-            ->add('category', ModelListType::class)
+            ->add('category', ModelListType::class, [
+                'required' => true,
+                'constraints' => [
+                    new NotNull()
+                ]
+            ])
             ->end();
 
         $formMapper

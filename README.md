@@ -112,6 +112,11 @@ web_et_design_cms:
       controller: WebEtDesign\ActualityBundle\Controller\ActualityController
       action: __invoke
       params:
+        category:
+          requirement: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          default: null
+          entity: WebEtDesign\ActualityBundle\Entity\Category
+          property: slug
         actuality:
           requirement: ^[a-z0-9]+(?:-[a-z0-9]+)*$
           default: null

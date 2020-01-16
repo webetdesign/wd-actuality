@@ -82,7 +82,7 @@ class Actuality
     /**
      * @var null|Category
      * @ORM\ManyToOne(targetEntity="WebEtDesign\ActualityBundle\Entity\Category", inversedBy="actualities")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     private $category;
 

@@ -25,17 +25,20 @@ class ActualityController extends BaseCmsController
 
     /**
      * @param Request $request
+     * @param Category $category
      * @param Actuality $actuality
      * @return Response|ResourceNotFoundException
      * @ParamConverter("actuality", class="WebEtDesign\ActualityBundle\Entity\Actuality", options={"mapping": {"actuality": "slug"}})
-     */
-    public function __invoke(Request $request, Actuality $actuality){
+     * @ParamConverter("category", class="WebEtDesign\ActualityBundle\Entity\Category", options={"mapping": {"category": "slug"}})
+*/
+    public function __invoke(Request $request, Category $category, Actuality $actuality){
 
-        if (!$actuality) {
+        if (!$category || !$actuality) {
             return new ResourceNotFoundException();
         }
 
         return $this->defaultRender([
+            'category' => $category,
             'actuality' => $actuality
         ]);
     }

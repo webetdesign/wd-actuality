@@ -2,8 +2,10 @@
 
 namespace WebEtDesign\ActualityBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -67,6 +69,15 @@ class Category
     public function __toString()
     {
         return (string) $this->getTitle();
+    }
+
+    public function countPublishedActuality()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('published', true))
+            ->andWhere(Criteria::expr()->lt('publishedAt', new DateTime('now')));
+
+        return $this->actualities->matching($criteria)->count();
     }
 
     public function getId(): ?int
