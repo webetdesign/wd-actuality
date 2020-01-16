@@ -1,0 +1,13 @@
+services:
+  wd_actuality.admin.actuality:
+    class: WebEtDesign\ActualityBundle\Admin\ActualityAdmin
+    arguments: [~, WebEtDesign\ActualityBundle\Entity\Actuality, PixSortableBehaviorBundle:SortableAdmin]
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Actualilty, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i> }
+    public: true
+  wd_actuality.admin.category:
+    class: WebEtDesign\ActualityBundle\Admin\CategoryAdmin
+    arguments: [~, WebEtDesign\ActualityBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin]
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Category, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i> }
+    public: true

@@ -1,1 +1,5 @@
 services:
+  WebEtDesign\ActualityBundle\Repository\:
+    resource: '../../Repository/*'
+    autowire: true
+    tags: ['doctrine.repository_service']
