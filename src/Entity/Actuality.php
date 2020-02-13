@@ -48,7 +48,7 @@ class Actuality
     private $picture;
 
     /**
-     * @ORM\Column(type="text", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $excerpt;
 
