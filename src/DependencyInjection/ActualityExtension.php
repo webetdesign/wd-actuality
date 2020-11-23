@@ -2,7 +2,8 @@
 
 namespace WebEtDesign\ActualityBundle\DependencyInjection;
 
-use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
+use Sonata\Doctrine\Mapper\Builder\OptionsBuilder;
+use Sonata\Doctrine\Mapper\DoctrineCollector;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -56,21 +57,13 @@ class ActualityExtension extends Extension
 
     protected function addActualityMapping(DoctrineCollector $collector, $config)
     {
-        $collector->addAssociation(Actuality::class, 'mapManyToOne', [
-            'fieldName' => 'picture',
-            'targetEntity' => $config['class']['media'],
-            'cascade' => [
-                'persist',
-                'remove'
-            ],
-            'joinColumns' => [
-                [
-                    'name' => 'picture_id',
-                    'referenceColumnName' => 'id',
-                ]
-            ],
-            'inversedBy' => null
-        ]);
+        $collector->addAssociation(Actuality::class, 'mapManyToOne',  OptionsBuilder::createManyToOne('picture', $config['class']['media'])
+            ->cascade(['persist', 'remove'])
+            ->inversedBy(null)
+            ->addJoin([
+                'name'                 => 'picture_id',
+                'referencedColumnName' => 'id',
+            ]));
     }
 
 }
