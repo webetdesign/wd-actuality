@@ -59,7 +59,6 @@ class ActualityExtension extends Extension
     {
         $collector->addAssociation(Actuality::class, 'mapManyToOne',  OptionsBuilder::createManyToOne('picture', $config['class']['media'])
             ->cascade(['persist', 'remove'])
-            ->inversedBy(null)
             ->addJoin([
                 'name'                 => 'picture_id',
                 'referencedColumnName' => 'id',
