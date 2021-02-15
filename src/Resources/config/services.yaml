@@ -5,6 +5,7 @@ services:
     tags: ['doctrine.repository_service']
 
   WebEtDesign\ActualityBundle\Controller\ActualityController:
+    autowire: true
     arguments:
       - '%wd_actuality.config%'
     tags: ['controller.service_arguments']

@@ -5,9 +5,11 @@ namespace WebEtDesign\ActualityBundle\Controller;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use WebEtDesign\ActualityBundle\Cms\ActualityVars;
 use WebEtDesign\ActualityBundle\Entity\Actuality;
 use WebEtDesign\ActualityBundle\Entity\Category;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
@@ -15,12 +17,17 @@ use WebEtDesign\CmsBundle\Controller\BaseCmsController;
 class ActualityController extends BaseCmsController
 {
     protected $config;
+    /**
+     * @var ParameterBagInterface
+     */
+    private ParameterBagInterface $parameterBag;
 
     /**
      * @inheritDoc
     */
-    public function __construct($config) {
+    public function __construct($config, ParameterBagInterface $parameterBag) {
         $this->config = $config;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -30,11 +37,16 @@ class ActualityController extends BaseCmsController
      * @return Response|ResourceNotFoundException
      * @ParamConverter("actuality", class="WebEtDesign\ActualityBundle\Entity\Actuality", options={"mapping": {"actuality": "slug"}})
      * @ParamConverter("category", class="WebEtDesign\ActualityBundle\Entity\Category", options={"mapping": {"category": "slug"}})
-*/
+     */
     public function __invoke(Request $request, Category $category, Actuality $actuality){
 
         if (!$category || !$actuality) {
             return new ResourceNotFoundException();
+        }
+        $def = $this->parameterBag->get('wd_cms.vars');
+
+        if  (isset($def['enable']) && $def['enable']){
+            $this->setVarsObject(new ActualityVars($actuality));
         }
 
         return $this->defaultRender([

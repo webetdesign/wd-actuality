@@ -111,6 +111,8 @@ web_et_design_cms:
       label: Actualitée
       controller: WebEtDesign\ActualityBundle\Controller\ActualityController
       action: __invoke
+      # If global vars is enable in project
+      entityVars: WebEtDesign\ActualityBundle\Cms\ActualityVars
       params:
         category:
           requirement: ^[a-z0-9]+(?:-[a-z0-9]+)*$
