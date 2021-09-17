@@ -13,13 +13,14 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Validator\Constraints\NotNull;
-use WebEtDesign\CmsBundle\Utils\SmoFacebookAdminTrait;
+use WebEtDesign\CmsBundle\Utils\SmoOpenGraphAdminTrait;
 use WebEtDesign\CmsBundle\Utils\SmoTwitterAdminTrait;
+use WebEtDesign\MediaBundle\Form\Type\WDMediaType;
 
 final class ActualityAdmin extends AbstractAdmin
 {
 
-    use SmoFacebookAdminTrait;
+    use SmoOpenGraphAdminTrait;
     use SmoTwitterAdminTrait;
 
     protected $datagridValues = [
@@ -64,12 +65,8 @@ final class ActualityAdmin extends AbstractAdmin
         $formMapper
             ->with('General', ['class' => 'col-md-8', 'box_class' => ''])
             ->add('title')
-            ->add('picture', ModelListType::class, [], [
-                'link_parameters' => [
-                    'context'      => 'actuality',
-                    'provider'     => 'sonata.media.provider.image',
-                    'hide_context' => true,
-                ],
+            ->add('picture', WDMediaType::class, [
+                'category' => 'default_cms'
             ])
             ->add('category', ModelListType::class, [
                 'required' => true,
@@ -118,7 +115,7 @@ final class ActualityAdmin extends AbstractAdmin
             ->add('seo_keywords')
             ->add('seo_breadcrumb')
             ->end();
-        $this->addFormFieldSmoFacebook($formMapper);
+        $this->addFormFieldSmoOpenGraph($formMapper);
         $this->addFormFieldSmoTwitter($formMapper);
         $formMapper
             ->end();

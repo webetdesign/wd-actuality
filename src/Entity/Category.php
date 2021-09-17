@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="WebEtDesign\ActualityBundle\Repository\CategoryRepository")
@@ -15,57 +16,44 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Category
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private string $title = '';
 
     /**
      * @var null|string
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"title"})
      */
-    private $slug;
+    private ?string $slug = null;
 
     /**
      * @ORM\Column(type="integer")
      * @Gedmo\SortablePosition
      */
-    private $position;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="update")
-     */
-    private $updatedAt;
+    private ?int $position = null;
 
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="WebEtDesign\ActualityBundle\Entity\Actuality", mappedBy="category")
      */
-    private $actualities;
+    private Collection $actualities;
 
     public function __construct()
     {
         $this->actualities = new ArrayCollection();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __toString()
     {
         return (string) $this->getTitle();
@@ -109,30 +97,6 @@ class Category
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Actuality[]
      */
@@ -165,7 +129,7 @@ class Category
     }
 
     /**
-     * @param string $slug
+     * @param string|null $slug
      * @return Category
      */
     public function setSlug(?string $slug): Category

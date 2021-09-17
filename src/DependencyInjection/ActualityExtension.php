@@ -26,8 +26,6 @@ class ActualityExtension extends Extension
         $loader->load('services.yaml');
         $loader->load('admin.yaml');
 
-        $this->registerDoctrineMapping($config);
-
         $container->setParameter('wd_actuality.config', $config['configuration']);
 
     }
@@ -48,21 +46,5 @@ class ActualityExtension extends Extension
         return 'wd_actuality';
     }
 
-    private function registerDoctrineMapping($config)
-    {
-        $collector = DoctrineCollector::getInstance();
-
-        $this->addActualityMapping($collector, $config);
-    }
-
-    protected function addActualityMapping(DoctrineCollector $collector, $config)
-    {
-        $collector->addAssociation(Actuality::class, 'mapManyToOne',  OptionsBuilder::createManyToOne('picture', $config['class']['media'])
-            ->cascade(['persist', 'remove'])
-            ->addJoin([
-                'name'                 => 'picture_id',
-                'referencedColumnName' => 'id',
-            ]));
-    }
 
 }

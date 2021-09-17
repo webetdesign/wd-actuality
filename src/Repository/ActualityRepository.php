@@ -47,6 +47,24 @@ class ActualityRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    public function findLast($limit = 3)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->where('a.published = 1')
+            ->andWhere('a.publishedAt < :now')
+            ->setParameter('now', new DateTime('now'))
+            ->orderBy('a.publishedAt', 'DESC')
+        ;
+
+        $qb->setMaxResults($limit);
+
+        if ($limit === 1) {
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Actuality[] Returns an array of Actuality objects
     //  */
