@@ -3,9 +3,9 @@
 namespace WebEtDesign\ActualityBundle\Repository;
 
 use DateTime;
+use Doctrine\Persistence\ManagerRegistry;
 use WebEtDesign\ActualityBundle\Entity\Actuality;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use WebEtDesign\ActualityBundle\Entity\Category;
 
 /**
