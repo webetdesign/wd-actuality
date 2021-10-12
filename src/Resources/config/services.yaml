@@ -9,3 +9,8 @@ services:
     arguments:
       - '%wd_actuality.config%'
     tags: ['controller.service_arguments']
+
+  WebEtDesign\ActualityBundle\EventListener\SitemapSubscriber:
+    autowire: true
+    tags:
+      - { name: "kernel.event_subscriber", priority: 100 }

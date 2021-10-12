@@ -40,6 +40,13 @@ wd_actuality:
   class:
     user: App\Entity\User
     media: App\Entity\Media
+  seo:
+    actuality_route_name: 'actuality'  
+    category_route_name: 'category_actuality'
+    host: exemple.com
+    scheme: http
+    priority: 0.3
+    changefreq: weekly
 ```
 
 ```yaml

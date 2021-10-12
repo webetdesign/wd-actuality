@@ -27,6 +27,7 @@ class ActualityExtension extends Extension
         $loader->load('admin.yaml');
 
         $container->setParameter('wd_actuality.config', $config['configuration']);
+        $container->setParameter('wd_actuality.seo', $config['seo']);
 
     }
 
