@@ -6,10 +6,10 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use WebEtDesign\CmsBundle\Entity\SeoAwareTrait;
-use WebEtDesign\CmsBundle\Utils\SmoOpenGraphTrait;
-use WebEtDesign\CmsBundle\Utils\SmoTwitterTrait;
 use WebEtDesign\MediaBundle\Entity\Media;
+use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
+use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
+use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
 
 /**
  * @ORM\Entity(repositoryClass="WebEtDesign\ActualityBundle\Repository\ActualityRepository")

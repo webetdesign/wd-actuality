@@ -13,9 +13,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Validator\Constraints\NotNull;
-use WebEtDesign\CmsBundle\Utils\SmoOpenGraphAdminTrait;
-use WebEtDesign\CmsBundle\Utils\SmoTwitterAdminTrait;
-use WebEtDesign\MediaBundle\Form\Type\WDMediaType;
+use WebEtDesign\SeoBundle\Admin\SmoOpenGraphAdminTrait;
+use WebEtDesign\SeoBundle\Admin\SmoTwitterAdminTrait;
 
 final class ActualityAdmin extends AbstractAdmin
 {
