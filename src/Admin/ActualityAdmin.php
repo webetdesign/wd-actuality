@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Validator\Constraints\NotNull;
+use WebEtDesign\MediaBundle\Form\Type\WDMediaType;
 use WebEtDesign\SeoBundle\Admin\SmoOpenGraphAdminTrait;
 use WebEtDesign\SeoBundle\Admin\SmoTwitterAdminTrait;
 
@@ -65,7 +66,7 @@ final class ActualityAdmin extends AbstractAdmin
             ->with('General', ['class' => 'col-md-8', 'box_class' => ''])
             ->add('title')
             ->add('picture', WDMediaType::class, [
-                'category' => 'default_cms'
+                'category' => 'actuality'
             ])
             ->add('category', ModelListType::class, [
                 'required' => true,
@@ -109,10 +110,8 @@ final class ActualityAdmin extends AbstractAdmin
         $formMapper
             ->tab('SEO');
         $formMapper->with('Général', ['class' => 'col-xs-12 col-md-4', 'box_class' => ''])
-            ->add('seo_title')
-            ->add('seo_description')
-            ->add('seo_keywords')
-            ->add('seo_breadcrumb')
+            ->add('seoTitle')
+            ->add('seoDescription')
             ->end();
         $this->addFormFieldSmoOpenGraph($formMapper);
         $this->addFormFieldSmoTwitter($formMapper);
