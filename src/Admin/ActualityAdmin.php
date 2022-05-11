@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WebEtDesign\ActualityBundle\Admin;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -84,21 +85,21 @@ final class ActualityAdmin extends AbstractAdmin
 
         $formMapper
             ->with('Content', ['box_class' => ''])
-            ->add('excerpt', SimpleFormatterType::class,
+            ->add('excerpt', CKEditorType::class,
                 [
                     'required'         => false,
-                    'format'           => 'richhtml',
-                    'ckeditor_context' => 'actuality',
+//                    'format'           => 'richhtml',
+//                    'ckeditor_context' => 'actuality',
                     'attr'             => [
                         'rows' => 5
                     ]
                 ])
 //            ->addHelp('excerpt', 'A short introducing text')
-            ->add('content', SimpleFormatterType::class,
+            ->add('content', CKEditorType::class,
                 [
                     'required'         => false,
                     'format'           => 'richhtml',
-                    'ckeditor_context' => 'actuality',
+//                    'ckeditor_context' => 'actuality',
                     'attr'             => [
                         'rows' => 15
                     ]
