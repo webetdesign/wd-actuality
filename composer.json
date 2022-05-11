@@ -38,7 +38,7 @@
     "symfony/validator": "^5.0",
     "twig/extensions": "^1.5",
     "twig/twig": "^1.34 || ^2.0",
-    "webetdesign/wd-cms": "^2.4|dev-master",
+    "webetdesign/wd-cms": "^3.0|dev-master",
     "webetdesign/wd-seo-bundle": "^1.0",
     "white-october/pagerfanta-bundle": "^1.3"
   },
