@@ -12,7 +12,7 @@
     "php": "^8.0",
     "doctrine/common": "^2.0|^3.0",
     "doctrine/doctrine-bundle": "^1.10|^2.0",
-    "doctrine/inflector": "^1.1",
+    "doctrine/inflector": "^2.0",
     "doctrine/orm": "^2.6",
     "pixassociates/sortable-behavior-bundle": "^1.5",
     "sonata-project/admin-bundle": "^4.0",
