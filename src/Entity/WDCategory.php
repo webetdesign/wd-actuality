@@ -2,6 +2,7 @@
 
 namespace WebEtDesign\ActualityBundle\Entity;
 
+use App\Entity\Actuality\Actuality;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,12 +10,13 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use WebEtDesign\RgpdBundle\Annotations\Exportable;
 
 /**
- * @ORM\Entity(repositoryClass="WebEtDesign\ActualityBundle\Repository\CategoryRepository")
- * @ORM\Table(name="actuality__category")
+ * @ORM\MappedSuperclass()
+ * @Exportable()
  */
-class Category
+abstract class WDCategory
 {
     use TimestampableEntity;
 
@@ -45,7 +47,7 @@ class Category
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="WebEtDesign\ActualityBundle\Entity\Actuality", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Actuality", mappedBy="category")
      */
     private Collection $actualities;
 
@@ -130,9 +132,9 @@ class Category
 
     /**
      * @param string|null $slug
-     * @return Category
+     * @return WDCategory
      */
-    public function setSlug(?string $slug): Category
+    public function setSlug(?string $slug): WDCategory
     {
         $this->slug = $slug;
         return $this;

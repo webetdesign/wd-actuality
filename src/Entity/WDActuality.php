@@ -2,22 +2,23 @@
 
 namespace WebEtDesign\ActualityBundle\Entity;
 
+use App\Entity\Actuality\Category;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use WebEtDesign\MediaBundle\Entity\Media;
+use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
 use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
 use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
 
 /**
- * @ORM\Entity(repositoryClass="WebEtDesign\ActualityBundle\Repository\ActualityRepository")
- * @ORM\Table(name="actuality__actuality")
+ *  @ORM\MappedSuperclass()
+ * @Exportable()
  */
-class Actuality
+abstract class WDActuality
 {
-
     use SeoAwareTrait;
     use SmoOpenGraphTrait;
     use SmoTwitterTrait;
@@ -64,13 +65,18 @@ class Actuality
     private ?bool $published = null;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $roughtDraft = false;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $publishedAt = null;
 
     /**
      * @var null|Category
-     * @ORM\ManyToOne(targetEntity="WebEtDesign\ActualityBundle\Entity\Category", inversedBy="actualities")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="actualities")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     private ?Category $category = null;
@@ -177,6 +183,25 @@ class Actuality
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRoughtDraft(): bool
+    {
+        return $this->roughtDraft;
+    }
+
+    /**
+     * @param bool $roughtDraft
+     * @return WDActuality
+     */
+    public function setRoughtDraft(bool $roughtDraft): self
+    {
+        $this->roughtDraft = $roughtDraft;
 
         return $this;
     }

@@ -9,7 +9,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use WebEtDesign\ActualityBundle\Entity\Actuality;
+use WebEtDesign\ActualityBundle\Entity\WDActuality;
 
 class ActualityExtension extends Extension
 {
@@ -25,6 +25,16 @@ class ActualityExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
         $loader->load('admin.yaml');
+
+        $container->setParameter(
+            'wd_actuality.actuality.class',
+            $config['actuality']['class']
+        );
+
+        $container->setParameter(
+            'wd_actuality.category.class',
+            $config['category']['class']
+        );
 
         $container->setParameter('wd_actuality.config', $config['configuration']);
         $container->setParameter('wd_actuality.seo', $config['seo']);

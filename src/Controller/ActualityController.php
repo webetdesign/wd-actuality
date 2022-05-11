@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use WebEtDesign\ActualityBundle\Cms\ActualityVars;
-use WebEtDesign\ActualityBundle\Entity\Actuality;
+use WebEtDesign\ActualityBundle\Entity\WDActuality;
 use WebEtDesign\ActualityBundle\Entity\Category;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
 
@@ -33,12 +33,12 @@ class ActualityController extends BaseCmsController
     /**
      * @param Request $request
      * @param Category $category
-     * @param Actuality $actuality
+     * @param WDActuality $actuality
      * @return Response|ResourceNotFoundException
      * @ParamConverter("actuality", class="WebEtDesign\ActualityBundle\Entity\Actuality", options={"mapping": {"actuality": "slug"}})
      * @ParamConverter("category", class="WebEtDesign\ActualityBundle\Entity\Category", options={"mapping": {"category": "slug"}})
      */
-    public function __invoke(Request $request, Category $category, Actuality $actuality){
+    public function __invoke(Request $request, Category $category, WDActuality $actuality){
 
         if (!$category || !$actuality) {
             return new ResourceNotFoundException();
@@ -63,7 +63,7 @@ class ActualityController extends BaseCmsController
      */
     public function list(Request $request, Category $category = null)
     {
-        $actualityRepo = $this->getDoctrine()->getRepository(Actuality::class);
+        $actualityRepo = $this->getDoctrine()->getRepository(WDActuality::class);
         if ($category) {
             $qb = $actualityRepo->findPublishedByCategory($category);
         } else {

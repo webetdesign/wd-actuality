@@ -23,6 +23,18 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('actuality')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                        ->scalarNode('class')->defaultValue('App\Entity\Actuality\Actuality')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('category')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                        ->scalarNode('class')->defaultValue('App\Entity\Actuality\Category')->end()
+                    ->end()
+                ->end()
                 ->arrayNode('class')
                     ->children()
                         ->scalarNode('user')->cannotBeEmpty()->end()
