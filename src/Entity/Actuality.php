@@ -61,19 +61,19 @@ class Actuality
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $published;
+    private ?bool $published = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?DateTimeInterface $publishedAt;
+    private ?DateTimeInterface $publishedAt = null;
 
     /**
      * @var null|Category
      * @ORM\ManyToOne(targetEntity="WebEtDesign\ActualityBundle\Entity\Category", inversedBy="actualities")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
-    private ?Category $category;
+    private ?Category $category = null;
 
     public function __toString()
     {

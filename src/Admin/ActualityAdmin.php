@@ -93,7 +93,7 @@ final class ActualityAdmin extends AbstractAdmin
                         'rows' => 5
                     ]
                 ])
-            ->addHelp('excerpt', 'A short introducing text')
+//            ->addHelp('excerpt', 'A short introducing text')
             ->add('content', SimpleFormatterType::class,
                 [
                     'required'         => false,

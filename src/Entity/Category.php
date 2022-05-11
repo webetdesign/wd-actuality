@@ -38,7 +38,7 @@ class Category
     private ?string $slug = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\SortablePosition
      */
     private ?int $position = null;

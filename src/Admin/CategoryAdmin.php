@@ -32,26 +32,34 @@ final class CategoryAdmin extends AbstractAdmin
     {
 //        unset($this->listModes['mosaic']);
 
-        $listMapper
-            ->add('position', 'actions', [
-                'actions' => [
-                    'move' => [
-                        'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
-                        'enable_top_bottom_buttons' => false,
-                    ]
-                ]
-            ]);
+//            $listMapper
+//                ->add('position', 'actions', [
+//                    'actions' => [
+//                        'move' => [
+////                            'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
+//                            'enable_top_bottom_buttons' => false,
+//                        ]
+//                    ]
+//                ]);
         $listMapper
             ->add('title')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('_action', null, [
+//            ->add('_action', null, [
+//                'actions' => [
+//                    'show'   => [],
+//                    'edit'   => [],
+//                    'delete' => [],
+//                ],
+//            ])
+            ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
-                    'show'   => [],
-                    'edit'   => [],
+                    'show' => [],
+                    'edit' => [],
                     'delete' => [],
                 ],
             ]);
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -72,7 +80,7 @@ final class CategoryAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollectionInterface $collection):void
     {
-        $collection
-            ->add('move', $this->getRouterIdParameter() . '/move/{position}');
+//        $collection
+//            ->add('move', $this->getRouterIdParameter() . '/move/{position}');
     }
 }
