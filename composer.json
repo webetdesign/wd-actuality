@@ -40,7 +40,6 @@
     "webetdesign/wd-cms": "^3.0|dev-master",
     "webetdesign/wd-seo-bundle": "^3.0",
     "pagerfanta/pagerfanta": "^v3.6.0",
-    "pixassociates/sortable-behavior-bundle": "^v1.5"
   },
   "require-dev": {
     "symfony/filesystem": "^5.0",
