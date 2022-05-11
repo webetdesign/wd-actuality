@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 final class CategoryAdmin extends AbstractAdmin
@@ -29,7 +30,7 @@ final class CategoryAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $listMapper): void
     {
-        unset($this->listModes['mosaic']);
+//        unset($this->listModes['mosaic']);
 
         $listMapper
             ->add('position', 'actions', [
@@ -69,7 +70,7 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('updatedAt');
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection):void
     {
         $collection
             ->add('move', $this->getRouterIdParameter() . '/move/{position}');
