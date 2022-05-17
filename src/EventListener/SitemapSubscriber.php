@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SitemapSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var UrlGeneratorInterface
      */
@@ -67,12 +66,13 @@ class SitemapSubscriber implements EventSubscriberInterface
                 $context->setScheme($config['scheme']);
             }
 
+
             $this->urlGenerator->setContext($context);
 
             $url = new UrlConcrete($this->urlGenerator->generate($config['category_route_name'], [
                 "category" => $category->getSlug()
             ],
-                UrlGeneratorInterface::ABSOLUTE_URL),
+                UrlGeneratorInterface::ABSOLUTE_PATH),
                 $category->getUpdatedAt(),
                 $config['changefreq'] ?? null,
                 $config['priority'] ?? null
