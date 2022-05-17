@@ -26,16 +26,6 @@ class ActualityExtension extends Extension
         $loader->load('services.yaml');
         $loader->load('admin.yaml');
 
-        $container->setParameter(
-            'wd_actuality.actuality.class',
-            $config['actuality']['class']
-        );
-
-        $container->setParameter(
-            'wd_actuality.category.class',
-            $config['category']['class']
-        );
-
         $container->setParameter('wd_actuality.config', $config['configuration']);
         $container->setParameter('wd_actuality.seo', $config['seo']);
 
@@ -50,6 +40,8 @@ class ActualityExtension extends Extension
         // manager configuration
         $container->setParameter('wd_actuality.admin.content.user', $config['class']['user']);
         $container->setParameter('wd_actuality.admin.content.media', $config['class']['media']);
+        $container->setParameter('wd_actuality.actuality.class', $config['class']['actuality']);
+        $container->setParameter('wd_actuality.category.class', $config['class']['category']);
     }
 
     public function getAlias()

@@ -4,6 +4,7 @@
 namespace WebEtDesign\ActualityBundle\EventListener;
 
 
+use App\Entity\Actuality\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Service\UrlContainerInterface;
@@ -11,7 +12,6 @@ use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use WebEtDesign\ActualityBundle\Entity\Category;
 
 class SitemapSubscriber implements EventSubscriberInterface
 {
@@ -92,7 +92,7 @@ class SitemapSubscriber implements EventSubscriberInterface
 
                 $url = new UrlConcrete($this->urlGenerator->generate($config['actuality_route_name'], [
                     "category" => $category->getSlug(),
-                    'actuality' => $actuality->getSlug()
+                    "actuality" => $actuality->getSlug()
                 ],
                     UrlGeneratorInterface::ABSOLUTE_URL),
                     $actuality->getUpdatedAt(),

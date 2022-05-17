@@ -2,16 +2,19 @@
 
 namespace WebEtDesign\ActualityBundle\Controller;
 
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use App\Entity\Actuality\Actuality;
+use App\Entity\Actuality\Category;
+//use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sonata\Doctrine\Adapter\ORM\DoctrineORMAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use WebEtDesign\ActualityBundle\Cms\ActualityVars;
 use WebEtDesign\ActualityBundle\Entity\WDActuality;
-use WebEtDesign\ActualityBundle\Entity\Category;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
 
 class ActualityController extends BaseCmsController
@@ -35,8 +38,8 @@ class ActualityController extends BaseCmsController
      * @param Category $category
      * @param WDActuality $actuality
      * @return Response|ResourceNotFoundException
-     * @ParamConverter("actuality", class="WebEtDesign\ActualityBundle\Entity\Actuality", options={"mapping": {"actuality": "slug"}})
-     * @ParamConverter("category", class="WebEtDesign\ActualityBundle\Entity\Category", options={"mapping": {"category": "slug"}})
+     * @ParamConverter("actuality", class="App\Entity\Actuality\Actuality", options={"mapping": {"actuality": "slug"}})
+     * @ParamConverter("category", class="App\Entity\Acyuality\Category", options={"mapping": {"category": "slug"}})
      */
     public function __invoke(Request $request, Category $category, WDActuality $actuality){
 

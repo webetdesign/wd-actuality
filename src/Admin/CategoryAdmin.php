@@ -45,13 +45,6 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('title')
             ->add('createdAt')
             ->add('updatedAt')
-//            ->add('_action', null, [
-//                'actions' => [
-//                    'show'   => [],
-//                    'edit'   => [],
-//                    'delete' => [],
-//                ],
-//            ])
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],

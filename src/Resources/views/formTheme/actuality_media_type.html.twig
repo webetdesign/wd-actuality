@@ -1,0 +1,54 @@
+{% block actuality_media_collection_row %}
+    {%- set attr = attr|merge({'data-actuality-media-collection-target': "collection" }) -%}
+    {{ form_label(form) }}
+    <div data-controller="actuality-media-collection" data-prototype="{{ form_row(prototype)|e('html_attr') }}">
+        {{- block('form_widget') -}}
+        <div>
+            <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-action="click->actuality-media-collection#addItem"
+            >
+                <i class="fa fa-plus"></i> Nouvelle image
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block actuality_media_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block actuality_media_widget %}
+    <div data-actuality-media-collection-target="items" data-index="{{ form.vars.name }}" style="margin-bottom: 15px">
+        {{ form_widget(form.position) }}
+        <div class="d-none">
+            {{ form_widget(form.actuality) }}
+        </div>
+
+        <div class="box-header with-border ">
+            <div class="d-flex">
+                <div>
+                    <button type="button"
+                            class="btn btn-default"
+                            data-action="click->actuality-media-collection#moveUp"
+                            data-actuality-media-collection-target="arrowUp"
+                    >
+                        <i class="glyphicon glyphicon-arrow-up"></i></button>
+                    <button type="button"
+                            class="btn btn-default"
+                            data-action="click->actuality-media-collection#moveDown"
+                            data-actuality-media-collection-target="arrowDown"
+                    >
+                        <i class="glyphicon glyphicon-arrow-down"></i></button>
+                    <button type="button" class="btn btn-danger"
+                            data-action="click->actuality-media-collection#deleteItem"
+                    ><i class="fa fa-trash"></i></button>
+                </div>
+                <div style="padding: 7px">{{ form_errors(form.media) }}</div>
+            </div>
+        </div>
+        <div style="padding: 10px">{{ form_widget(form.media) }}</div>
+    </div>
+{% endblock %}
+

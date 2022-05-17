@@ -4,6 +4,8 @@ namespace WebEtDesign\ActualityBundle\Entity;
 
 use App\Entity\Actuality\Category;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -14,72 +16,71 @@ use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
 use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
 
 /**
- *  @ORM\MappedSuperclass()
- * @Exportable()
+ * @ORM\MappedSuperclass()
  */
 abstract class WDActuality
 {
+    use TimestampableEntity;
     use SeoAwareTrait;
     use SmoOpenGraphTrait;
     use SmoTwitterTrait;
-    use TimestampableEntity;
 
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $title = '';
+    protected string $title = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"title"})
      */
-    private ?string $slug = null;
+    protected ?string $slug = null;
 
     /**
      * @var null|Media
      *
      * @ORM\ManyToOne(targetEntity="WebEtDesign\MediaBundle\Entity\Media")
      */
-    private ?Media $picture = null;
+    protected ?Media $thumbnail = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $excerpt = null;
+    protected ?string $excerpt = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $content = null;
+    protected ?string $content = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $published = null;
+    protected ?bool $published = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $roughtDraft = false;
+    protected bool $draft = true;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?DateTimeInterface $publishedAt = null;
+    protected ?DateTimeInterface $publishedAt = null;
 
     /**
      * @var null|Category
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="actualities")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
-    private ?Category $category = null;
+    protected ?Category $category = null;
 
     public function __toString()
     {
@@ -115,14 +116,14 @@ abstract class WDActuality
         return $this;
     }
 
-    public function getPicture(): ?Media
+    public function getThumbnail(): ?Media
     {
-        return $this->picture;
+        return $this->thumbnail;
     }
 
-    public function setPicture(?Media $picture): self
+    public function setThumbnail(?Media $thumbnail): self
     {
-        $this->picture = $picture;
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
@@ -190,18 +191,18 @@ abstract class WDActuality
     /**
      * @return bool
      */
-    public function isRoughtDraft(): bool
+    public function isDraft(): bool
     {
-        return $this->roughtDraft;
+        return $this->draft;
     }
 
     /**
-     * @param bool $roughtDraft
+     * @param bool $draft
      * @return WDActuality
      */
-    public function setRoughtDraft(bool $roughtDraft): self
+    public function setDraft(bool $draft): self
     {
-        $this->roughtDraft = $roughtDraft;
+        $this->draft = $draft;
 
         return $this;
     }

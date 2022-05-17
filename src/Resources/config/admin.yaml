@@ -1,20 +1,18 @@
 services:
   wd_actuality.admin.actuality:
     class: WebEtDesign\ActualityBundle\Admin\ActualityAdmin
-#    arguments: [~, WebEtDesign\ActualityBundle\Entity\Actuality, PixSortableBehaviorBundle:SortableAdmin]
     arguments: [~, '%wd_actuality.actuality.class%', ~]
     tags:
       - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Actualilty, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true
     calls:
-      - [ setTranslationDomain, [ 'actuality_actuality_admin' ] ]
+      - [ setTranslationDomain, [ 'actuality__actuality_admin' ] ]
 
   wd_actuality.admin.category:
     class: WebEtDesign\ActualityBundle\Admin\CategoryAdmin
-#    arguments: [~, WebEtDesign\ActualityBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin]
     arguments: [~, '%wd_actuality.category.class%', ~]
     tags:
       - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Category, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true
     calls:
-      - [ setTranslationDomain, [ 'actuality_catgeory_admin' ] ]
+      - [ setTranslationDomain, [ 'actuality__catgeory_admin' ] ]

@@ -42,7 +42,7 @@ wd_actuality:
     media: App\Entity\Media
   seo:
     actuality_route_name: 'actuality'  
-    category_route_name: 'category_actuality'
+    category_route_name: ''
     host: exemple.com
     scheme: http
     priority: 0.3

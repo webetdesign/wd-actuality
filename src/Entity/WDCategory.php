@@ -14,7 +14,6 @@ use WebEtDesign\RgpdBundle\Annotations\Exportable;
 
 /**
  * @ORM\MappedSuperclass()
- * @Exportable()
  */
 abstract class WDCategory
 {
@@ -25,31 +24,31 @@ abstract class WDCategory
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $title = '';
+    protected string $title = '';
 
     /**
      * @var null|string
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"title"})
      */
-    private ?string $slug = null;
+    protected ?string $slug = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\SortablePosition
      */
-    private ?int $position = null;
+    protected ?int $position = null;
 
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Actuality", mappedBy="category")
      */
-    private Collection $actualities;
+    protected Collection $actualities;
 
     public function __construct()
     {
