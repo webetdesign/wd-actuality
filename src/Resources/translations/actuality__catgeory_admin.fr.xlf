@@ -91,5 +91,17 @@
         <target>Titre</target>
       </segment>
     </unit>
+    <unit id="64Fl2PH" name="form.group_catégories">
+      <segment>
+        <source>form.group_catégories</source>
+        <target>Catégorie</target>
+      </segment>
+    </unit>
+    <unit id="WKoj9cv" name="breadcrumb.link_category_create">
+      <segment>
+        <source>breadcrumb.link_category_create</source>
+        <target>Créer</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

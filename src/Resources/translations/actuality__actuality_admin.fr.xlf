@@ -58,8 +58,7 @@
     <unit id="1PhAL9o" name="show.label_id">
       <segment>
         <source>show.label_id</source>
-        <target>Id
-</target>
+        <target>Id</target>
       </segment>
     </unit>
     <unit id="b6HXQCs" name="show.label_title">
@@ -230,5 +229,11 @@
         <target>Description (balise description)</target>
       </segment>
     </unit>
+      <unit id="2WPNc_j" name="breadcrumb.link_actuality_create">
+          <segment>
+              <source>breadcrumb.link_actuality_create</source>
+              <target>Créer</target>
+          </segment>
+      </unit>
   </file>
 </xliff>
