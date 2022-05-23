@@ -43,8 +43,8 @@ final class CategoryAdmin extends AbstractAdmin
 //                ]);
         $listMapper
             ->add('title')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', null, ['format' => 'd/m/Y  H:i:s'])
+            ->add('updatedAt', null,['format' => 'd/m/Y  H:i:s'])
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -67,8 +67,8 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('title')
             ->add('position')
-            ->add('createdAt')
-            ->add('updatedAt');
+            ->add('createdAt',null, ['format' => 'd/m/Y H:i:s'])
+            ->add('updatedAt', null, ['format' => 'd/m/Y H:i:s']);
     }
 
 //    protected function configureRoutes(RouteCollectionInterface $collection):void

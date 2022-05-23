@@ -57,10 +57,10 @@ final class ActualityAdmin extends AbstractAdmin
             ->add('id')
             ->addIdentifier('title')
             ->addIdentifier('category')
-            ->add('published')
-            ->add('publishedAt')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('published', null, ['format' => 'd/m/Y H:i:s'])
+            ->add('publishedAt',null, ['format' => 'd/m/Y H:i:s'])
+            ->add('createdAt',null, ['format' => 'd/m/Y H:i:s'])
+            ->add('updatedAt', null, ['format' => 'd/m/Y H:i:s'])
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
