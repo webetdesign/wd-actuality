@@ -27,7 +27,7 @@ class WDActualityMedia
      * @ORM\ManyToOne(targetEntity=Actuality::class, inversedBy="actualityMedia"))
      * @ORM\JoinColumn(nullable=true)
      */
-    protected Actuality $actuality;
+    protected ?Actuality $actuality = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Media::class,cascade={"persist"}))
