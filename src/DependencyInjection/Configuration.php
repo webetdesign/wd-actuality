@@ -27,8 +27,6 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('user')->cannotBeEmpty()->end()
                         ->scalarNode('media')->cannotBeEmpty()->end()
-                        ->scalarNode('category')->defaultValue('App\Entity\Actuality\Category')->end()
-                        ->scalarNode('actuality')->defaultValue('App\Entity\Actuality\Actuality')->end()
                     ->end()
                 ->end()
                 ->arrayNode('seo')->addDefaultsIfNotSet()

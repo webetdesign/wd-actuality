@@ -71,9 +71,15 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('updatedAt');
     }
 
-    protected function configureRoutes(RouteCollectionInterface $collection):void
-    {
+//    protected function configureRoutes(RouteCollectionInterface $collection):void
+//    {
 //        $collection
 //            ->add('move', $this->getRouterIdParameter() . '/move/{position}');
+//    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
+        parent::configureRoutes($collection);
     }
 }

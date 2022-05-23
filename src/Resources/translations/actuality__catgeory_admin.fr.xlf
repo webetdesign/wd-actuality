@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr" trgLang="fr">
+  <file id="actuality__catgeory_admin.fr">
+    <unit id="1NzECeI" name="show.group_catégories">
+      <segment>
+        <source>show.group_catégories</source>
+        <target>Catégorie</target>
+      </segment>
+    </unit>
+    <unit id="tV27bmM" name="list.label_title">
+      <segment>
+        <source>list.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+    <unit id="vINylMw" name="list.label_created_at">
+      <segment>
+        <source>list.label_created_at</source>
+        <target>Crée le</target>
+      </segment>
+    </unit>
+    <unit id="5bQGDCR" name="list.label_updated_at">
+      <segment>
+        <source>list.label_updated_at</source>
+        <target>Modifiée le</target>
+      </segment>
+    </unit>
+    <unit id="oWTNLVb" name="list.label__actions">
+      <segment>
+        <source>list.label__actions</source>
+        <target>Actions</target>
+      </segment>
+    </unit>
+    <unit id="ZtPEucJ" name="filter.label_id">
+      <segment>
+        <source>filter.label_id</source>
+        <target>Id</target>
+      </segment>
+    </unit>
+    <unit id="kMpx0L3" name="filter.label_title">
+      <segment>
+        <source>filter.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+    <unit id="1PhAL9o" name="show.label_id">
+      <segment>
+        <source>show.label_id</source>
+        <target>Id</target>
+      </segment>
+    </unit>
+    <unit id="b6HXQCs" name="show.label_title">
+      <segment>
+        <source>show.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+    <unit id="KaPRgq5" name="show.label_position">
+      <segment>
+        <source>show.label_position</source>
+        <target>Position</target>
+      </segment>
+    </unit>
+    <unit id="vpAeuk9" name="show.label_created_at">
+      <segment>
+        <source>show.label_created_at</source>
+        <target>Crée le</target>
+      </segment>
+    </unit>
+    <unit id="mG3hVEu" name="show.label_updated_at">
+      <segment>
+        <source>show.label_updated_at</source>
+        <target>Modifiée le</target>
+      </segment>
+    </unit>
+    <unit id="ZGB5MUv" name="breadcrumb.link_category_list">
+      <segment>
+        <source>breadcrumb.link_category_list</source>
+        <target>Catégories</target>
+      </segment>
+    </unit>
+    <unit id="gEmucu0" name="form.group_category">
+      <segment>
+        <source>form.group_category</source>
+        <target>Catégorie</target>
+      </segment>
+    </unit>
+    <unit id="hEFmOyL" name="form.label_title">
+      <segment>
+        <source>form.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

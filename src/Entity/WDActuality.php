@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use WebEtDesign\MediaBundle\Entity\Media;
@@ -14,6 +15,7 @@ use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
 use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
 use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
+use App\Entity\Actuality\ActualityMedia;
 
 /**
  * @ORM\MappedSuperclass()
@@ -66,11 +68,6 @@ abstract class WDActuality
     protected ?bool $published = false;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected bool $draft = true;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected ?DateTimeInterface $publishedAt = null;
@@ -81,6 +78,17 @@ abstract class WDActuality
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     protected ?Category $category = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ActualityMedia::class, mappedBy="actuality", cascade={"persist", "remove"}))
+     * @OrderBy({"position" = "ASC"})
+     */
+    protected Collection $actualityMedia;
+
+    public function __construct()
+    {
+        $this->actualityMedia = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -102,7 +110,10 @@ abstract class WDActuality
         $this->title = $title;
 
         return $this;
-    }
+    }    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected bool $draft = true;
 
     public function getSlug(): ?string
     {
@@ -189,20 +200,31 @@ abstract class WDActuality
     }
 
     /**
-     * @return bool
+     * @return Collection<int, ActualityMedia>
      */
-    public function isDraft(): bool
+    public function getActualityMedia(): Collection
     {
-        return $this->draft;
+        return $this->actualityMedia;
     }
 
-    /**
-     * @param bool $draft
-     * @return WDActuality
-     */
-    public function setDraft(bool $draft): self
+    public function addActualityMedium(ActualityMedia $actualityMedium): self
     {
-        $this->draft = $draft;
+        if (!$this->actualityMedia->contains($actualityMedium)) {
+            $this->actualityMedia[] = $actualityMedium;
+            $actualityMedium->setActuality($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActualityMedium(ActualityMedia $actualityMedium): self
+    {
+        if ($this->actualityMedia->removeElement($actualityMedium)) {
+            // set the owning side to null (unless already changed)
+            if ($actualityMedium->getActuality() === $this) {
+                $actualityMedium->setActuality(null);
+            }
+        }
 
         return $this;
     }

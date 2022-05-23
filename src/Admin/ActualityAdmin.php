@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace WebEtDesign\ActualityBundle\Admin;
 
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaCollectionType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -32,6 +35,12 @@ final class ActualityAdmin extends AbstractAdmin
         '_sort_order' => 'DESC',
         '_sort_by'    => 'publishedAt',
     ];
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
+        parent::configureRoutes($collection);
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -72,7 +81,7 @@ final class ActualityAdmin extends AbstractAdmin
             ->tab('Actuality');
 
         $formMapper
-            ->with('General', ['class' => 'col-md-8', 'box_class' => ''])
+            ->with('General', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
             ->add('title')
             ->add('thumbnail', WDMediaType::class, [
                 'category' => 'actuality_thumbnail'
@@ -86,14 +95,25 @@ final class ActualityAdmin extends AbstractAdmin
             ->end();
 
         $formMapper
-            ->with('Publication', ['class' => 'col-md-4', 'box_class' => ''])
-            ->add('draft')
-            ->add('published')
+            ->with('Publication', ['class' => 'col-md-4', 'box_class' => 'box box-warning'])
+            ->add('published', ChoiceType::class,[
+                'label' => false,
+                'expanded' => true,
+                'required' => true,
+                'choices' => [
+                    'Brouillon' => false,
+                    'Publiée' => true
+                ]
+            ])
             ->add('publishedAt', DateTimePickerType::class)
             ->end();
 
         $formMapper
-            ->with('Content', ['box_class' => ''])
+            ->end();
+        $formMapper
+            ->tab('content');
+        $formMapper
+            ->with('Content', ['box_class' => 'box box-primary'])
             ->add('excerpt', CKEditorType::class,
                 [
                     'required'         => false,
