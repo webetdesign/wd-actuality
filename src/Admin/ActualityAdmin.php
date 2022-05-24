@@ -4,18 +4,26 @@ declare(strict_types=1);
 
 namespace WebEtDesign\ActualityBundle\Admin;
 
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaCollectionType;
+use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DatePickerType;
-use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Validator\Constraints\NotNull;
 use WebEtDesign\MediaBundle\Form\Type\WDMediaType;
 use WebEtDesign\SeoBundle\Admin\SmoOpenGraphAdminTrait;
 use WebEtDesign\SeoBundle\Admin\SmoTwitterAdminTrait;
+use Sonata\Form\Type\DateTimePickerType;
 
 final class ActualityAdmin extends AbstractAdmin
 {
@@ -28,6 +36,12 @@ final class ActualityAdmin extends AbstractAdmin
         '_sort_order' => 'DESC',
         '_sort_by'    => 'publishedAt',
     ];
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
+        parent::configureRoutes($collection);
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -44,14 +58,14 @@ final class ActualityAdmin extends AbstractAdmin
             ->add('id')
             ->addIdentifier('title')
             ->addIdentifier('category')
-            ->add('published')
-            ->add('publishedAt')
-            ->add('createAt')
-            ->add('updatedAt')
-            ->add('_action', null, [
+            ->add('published', null, ['format' => 'd/m/Y H:i:s'])
+            ->add('publishedAt',null, ['format' => 'd/m/Y H:i:s'])
+            ->add('createdAt',null, ['format' => 'd/m/Y H:i:s'])
+            ->add('updatedAt', null, ['format' => 'd/m/Y H:i:s'])
+            ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
-                    'show'   => [],
-                    'edit'   => [],
+                    'show' => [],
+                    'edit' => [],
                     'delete' => [],
                 ],
             ]);
@@ -59,14 +73,19 @@ final class ActualityAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper): void
     {
+
+        $this->setFormTheme(array_merge($this->getFormTheme(), [
+            '@Actuality/formTheme/actuality_media_type.html.twig',
+        ]));
+
         $formMapper
             ->tab('Actuality');
 
         $formMapper
-            ->with('General', ['class' => 'col-md-8', 'box_class' => ''])
+            ->with('General', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
             ->add('title')
-            ->add('picture', WDMediaType::class, [
-                'category' => 'actuality'
+            ->add('thumbnail', WDMediaType::class, [
+                'category' => 'actuality_thumbnail'
             ])
             ->add('category', ModelListType::class, [
                 'required' => true,
@@ -77,34 +96,43 @@ final class ActualityAdmin extends AbstractAdmin
             ->end();
 
         $formMapper
-            ->with('Publication', ['class' => 'col-md-4', 'box_class' => ''])
-            ->add('published')
-            ->add('publishedAt', DatePickerType::class)
+            ->with('Publication', ['class' => 'col-md-4', 'box_class' => 'box box-warning'])
+            ->add('published', ChoiceType::class,[
+                'label' => false,
+                'expanded' => true,
+                'required' => true,
+                'choices' => [
+                    'Brouillon' => false,
+                    'Publiée' => true
+                ]
+            ])
+            ->add('publishedAt', DateTimeType::class, [
+                'widget' => 'single_text',
+                'attr'           => ["autocomplete" => "off"]
+            ])
             ->end();
 
         $formMapper
-            ->with('Content', ['box_class' => ''])
-            ->add('excerpt', SimpleFormatterType::class,
+            ->end();
+        $formMapper
+            ->tab('content');
+        $formMapper
+            ->with('Content', ['box_class' => 'box box-primary'])
+            ->add('excerpt', CKEditorType::class,
                 [
                     'required'         => false,
-                    'format'           => 'richhtml',
-                    'ckeditor_context' => 'actuality',
                     'attr'             => [
                         'rows' => 5
-                    ]
+                    ],
+                    'help' => 'A short introducing text'
                 ])
-            ->addHelp('excerpt', 'A short introducing text')
-            ->add('content', SimpleFormatterType::class,
+            ->add('content', CKEditorType::class,
                 [
                     'required'         => false,
-                    'format'           => 'richhtml',
-                    'ckeditor_context' => 'actuality',
                     'attr'             => [
                         'rows' => 15
                     ]
                 ])
-<<<<<<< Updated upstream
-=======
             ->add('pictures', ActualityMediaCollectionType::class, [
                 'entry_type' => ActualityMediaType::class,
                 'entry_options' => [
@@ -115,7 +143,6 @@ final class ActualityAdmin extends AbstractAdmin
                 'by_reference'  => false,
                 'block_prefix' => 'test'
             ])
->>>>>>> Stashed changes
             ->end();
 
         $formMapper
@@ -138,10 +165,10 @@ final class ActualityAdmin extends AbstractAdmin
             ->add('id')
             ->add('title')
             ->add('slug')
-            ->add('picture')
+            ->add('thumbnail')
             ->add('excerpt')
             ->add('content')
-            ->add('createAt')
+            ->add('createdAt')
             ->add('updatedAt')
             ->add('published')
             ->add('publishedAt');

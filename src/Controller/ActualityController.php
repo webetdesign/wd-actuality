@@ -2,16 +2,18 @@
 
 namespace WebEtDesign\ActualityBundle\Controller;
 
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use App\Entity\Actuality\Actuality;
+use App\Entity\Actuality\Category;
+use DateTime;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use WebEtDesign\ActualityBundle\Cms\ActualityVars;
-use WebEtDesign\ActualityBundle\Entity\Actuality;
-use WebEtDesign\ActualityBundle\Entity\Category;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
 
 class ActualityController extends BaseCmsController
@@ -31,18 +33,29 @@ class ActualityController extends BaseCmsController
     }
 
     /**
-     * @param Request $request
+     * @param Request $req$now = new DateTime('now');
+
+        if (!$actuality->getPublished() || $actuality->getPublishedAt() === null || $actuality->getPublishedAt()->getTimestamp() > $now->getTimestamp()) {
+            throw new AccessDeniedHttpException();
+        }uest
      * @param Category $category
      * @param Actuality $actuality
      * @return Response|ResourceNotFoundException
-     * @ParamConverter("actuality", class="WebEtDesign\ActualityBundle\Entity\Actuality", options={"mapping": {"actuality": "slug"}})
-     * @ParamConverter("category", class="WebEtDesign\ActualityBundle\Entity\Category", options={"mapping": {"category": "slug"}})
+     * @ParamConverter("actuality", class="App\Entity\Actuality\Actuality", options={"mapping": {"actuality": "slug"}})
+     * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
     public function __invoke(Request $request, Category $category, Actuality $actuality){
 
         if (!$category || !$actuality) {
             return new ResourceNotFoundException();
         }
+
+        $now = new DateTime('now');
+
+        if (!$actuality->getPublished() || $actuality->getPublishedAt() === null || $actuality->getPublishedAt()->getTimestamp() > $now->getTimestamp()) {
+            throw new AccessDeniedHttpException();
+        }
+
         $def = $this->parameterBag->get('wd_cms.vars');
 
         if  (isset($def['enable']) && $def['enable']){
@@ -59,11 +72,12 @@ class ActualityController extends BaseCmsController
      * @param Request $request
      * @param Category|null $category
      * @return Response
-     * @ParamConverter("category", class="WebEtDesign\ActualityBundle\Entity\Category", options={"mapping": {"category": "slug"}})
+     * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
     public function list(Request $request, Category $category = null)
     {
         $actualityRepo = $this->getDoctrine()->getRepository(Actuality::class);
+
         if ($category) {
             $qb = $actualityRepo->findPublishedByCategory($category);
         } else {
@@ -72,7 +86,7 @@ class ActualityController extends BaseCmsController
 
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
 
-        $pager = new Pagerfanta(new DoctrineORMAdapter($qb));
+        $pager = new Pagerfanta(new QueryAdapter($qb));
         $pager->setCurrentPage($request->query->get('page', 1));
         $pager->setMaxPerPage((int) $request->query->get('limit', $this->config['result_limit']));
 

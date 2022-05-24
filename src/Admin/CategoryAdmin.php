@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 final class CategoryAdmin extends AbstractAdmin
@@ -29,28 +30,29 @@ final class CategoryAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $listMapper): void
     {
-        unset($this->listModes['mosaic']);
+//        unset($this->listModes['mosaic']);
 
-        $listMapper
-            ->add('position', 'actions', [
-                'actions' => [
-                    'move' => [
-                        'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
-                        'enable_top_bottom_buttons' => false,
-                    ]
-                ]
-            ]);
+//            $listMapper
+//                ->add('position', 'actions', [
+//                    'actions' => [
+//                        'move' => [
+////                            'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
+//                            'enable_top_bottom_buttons' => false,
+//                        ]
+//                    ]
+//                ]);
         $listMapper
             ->add('title')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('_action', null, [
+            ->add('createdAt', null, ['format' => 'd/m/Y  H:i:s'])
+            ->add('updatedAt', null,['format' => 'd/m/Y  H:i:s'])
+            ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
-                    'show'   => [],
-                    'edit'   => [],
+                    'show' => [],
+                    'edit' => [],
                     'delete' => [],
                 ],
             ]);
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -65,13 +67,19 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('title')
             ->add('position')
-            ->add('createdAt')
-            ->add('updatedAt');
+            ->add('createdAt',null, ['format' => 'd/m/Y H:i:s'])
+            ->add('updatedAt', null, ['format' => 'd/m/Y H:i:s']);
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+//    protected function configureRoutes(RouteCollectionInterface $collection):void
+//    {
+//        $collection
+//            ->add('move', $this->getRouterIdParameter() . '/move/{position}');
+//    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $collection
-            ->add('move', $this->getRouterIdParameter() . '/move/{position}');
+        $collection->remove('show');
+        parent::configureRoutes($collection);
     }
 }

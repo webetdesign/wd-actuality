@@ -2,80 +2,81 @@
 
 namespace WebEtDesign\ActualityBundle\Entity;
 
+use App\Entity\Actuality\Category;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use WebEtDesign\MediaBundle\Entity\Media;
+use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
 use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
 use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
+use App\Entity\Actuality\ActualityMedia;
 
 /**
- * @ORM\Entity(repositoryClass="WebEtDesign\ActualityBundle\Repository\ActualityRepository")
- * @ORM\Table(name="actuality__actuality")
+ * @ORM\MappedSuperclass()
  */
-class Actuality
+abstract class WDActuality
 {
-
+    use TimestampableEntity;
     use SeoAwareTrait;
     use SmoOpenGraphTrait;
     use SmoTwitterTrait;
-    use TimestampableEntity;
 
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $title = '';
+    protected string $title = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"title"})
      */
-    private ?string $slug = null;
+    protected ?string $slug = null;
 
     /**
      * @var null|Media
      *
      * @ORM\ManyToOne(targetEntity="WebEtDesign\MediaBundle\Entity\Media")
      */
-    private ?Media $picture = null;
+    protected ?Media $thumbnail = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $excerpt = null;
+    protected ?string $excerpt = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $content = null;
+    protected ?string $content = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $published;
+    protected ?bool $published = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?DateTimeInterface $publishedAt;
+    protected ?DateTimeInterface $publishedAt = null;
 
     /**
      * @var null|Category
-     * @ORM\ManyToOne(targetEntity="WebEtDesign\ActualityBundle\Entity\Category", inversedBy="actualities")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="actualities")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
-<<<<<<< Updated upstream:src/Entity/Actuality.php
-    private ?Category $category;
-=======
     protected ?Category $category = null;
 
     /**
@@ -88,7 +89,6 @@ class Actuality
     {
         $this->pictures = new ArrayCollection();
     }
->>>>>>> Stashed changes:src/Entity/WDActuality.php
 
     public function __toString()
     {
@@ -110,7 +110,10 @@ class Actuality
         $this->title = $title;
 
         return $this;
-    }
+    }    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected bool $draft = true;
 
     public function getSlug(): ?string
     {
@@ -124,14 +127,14 @@ class Actuality
         return $this;
     }
 
-    public function getPicture(): ?Media
+    public function getThumbnail(): ?Media
     {
-        return $this->picture;
+        return $this->thumbnail;
     }
 
-    public function setPicture(?Media $picture): self
+    public function setThumbnail(?Media $thumbnail): self
     {
-        $this->picture = $picture;
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
@@ -195,9 +198,36 @@ class Actuality
 
         return $this;
     }
-<<<<<<< Updated upstream:src/Entity/Actuality.php
-=======
 
+    /**
+     * @return Collection<int, ActualityMedia>
+     */
+    public function getActualityMedia(): Collection
+    {
+        return $this->actualityMedia;
+    }
+
+    public function addActualityMedium(ActualityMedia $actualityMedium): self
+    {
+        if (!$this->actualityMedia->contains($actualityMedium)) {
+            $this->actualityMedia[] = $actualityMedium;
+            $actualityMedium->setActuality($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActualityMedium(ActualityMedia $actualityMedium): self
+    {
+        if ($this->actualityMedia->removeElement($actualityMedium)) {
+            // set the owning side to null (unless already changed)
+            if ($actualityMedium->getActuality() === $this) {
+                $actualityMedium->setActuality(null);
+            }
+        }
+
+        return $this;
+    }
     /**
      * @return Collection<int, ActualityMedia>
      */
@@ -227,5 +257,4 @@ class Actuality
 
         return $this;
     }
->>>>>>> Stashed changes:src/Entity/WDActuality.php
 }

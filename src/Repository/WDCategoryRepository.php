@@ -3,20 +3,20 @@
 namespace WebEtDesign\ActualityBundle\Repository;
 
 use Doctrine\Persistence\ManagerRegistry;
-use WebEtDesign\ActualityBundle\Entity\Category;
+use WebEtDesign\ActualityBundle\Entity\WDCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method WDCategory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method WDCategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method WDCategory[]    findAll()
+ * @method WDCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class WDCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($registry, WDCategory::class);
     }
 
     // /**

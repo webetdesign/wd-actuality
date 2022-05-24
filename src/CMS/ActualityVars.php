@@ -2,7 +2,7 @@
 
 namespace WebEtDesign\ActualityBundle\Cms;
 
-use WebEtDesign\ActualityBundle\Entity\Actuality;
+use WebEtDesign\ActualityBundle\Entity\WDActuality;
 use WebEtDesign\CmsBundle\Entity\GlobalVarsInterface;
 
 class ActualityVars implements GlobalVarsInterface
@@ -70,7 +70,7 @@ class ActualityVars implements GlobalVarsInterface
         ];
     }
 
-    public function __construct(Actuality $actuality)
+    public function __construct(WDActuality $actuality)
     {
         $this->objects = [
             'actualite' => $actuality,

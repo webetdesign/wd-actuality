@@ -2,6 +2,7 @@
 
 namespace WebEtDesign\ActualityBundle\Entity;
 
+use App\Entity\Actuality\Actuality;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,12 +10,13 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use WebEtDesign\RgpdBundle\Annotations\Exportable;
 
 /**
- * @ORM\Entity(repositoryClass="WebEtDesign\ActualityBundle\Repository\CategoryRepository")
- * @ORM\Table(name="actuality__category")
+ * @ORM\MappedSuperclass()
  */
-class Category
+abstract class WDCategory
 {
     use TimestampableEntity;
 
@@ -23,31 +25,31 @@ class Category
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $title = '';
+    protected string $title = '';
 
     /**
      * @var null|string
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"title"})
      */
-    private ?string $slug = null;
+    protected ?string $slug = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\SortablePosition
      */
-    private ?int $position = null;
+    protected ?int $position = null;
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="WebEtDesign\ActualityBundle\Entity\Actuality", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Actuality", mappedBy="category")
      */
-    private Collection $actualities;
+    protected Collection $actualities;
 
     public function __construct()
     {
@@ -130,9 +132,9 @@ class Category
 
     /**
      * @param string|null $slug
-     * @return Category
+     * @return WDCategory
      */
-    public function setSlug(?string $slug): Category
+    public function setSlug(?string $slug): WDCategory
     {
         $this->slug = $slug;
         return $this;

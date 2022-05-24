@@ -1,13 +1,18 @@
 services:
   wd_actuality.admin.actuality:
     class: WebEtDesign\ActualityBundle\Admin\ActualityAdmin
-    arguments: [~, WebEtDesign\ActualityBundle\Entity\Actuality, PixSortableBehaviorBundle:SortableAdmin]
+    arguments: [~, 'App\Entity\Actuality\Actuality', ~]
     tags:
-      - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Actualilty, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i> }
+      - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Actualités, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true
+    calls:
+      - [ setTranslationDomain, [ 'actuality__actuality_admin' ] ]
+
   wd_actuality.admin.category:
     class: WebEtDesign\ActualityBundle\Admin\CategoryAdmin
-    arguments: [~, WebEtDesign\ActualityBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin]
+    arguments: [~, 'App\Entity\Actuality\Category', ~]
     tags:
-      - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Category, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i> }
+      - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Catégories, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true
+    calls:
+      - [ setTranslationDomain, [ 'actuality__catgeory_admin' ] ]

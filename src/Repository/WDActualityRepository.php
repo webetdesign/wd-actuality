@@ -2,23 +2,24 @@
 
 namespace WebEtDesign\ActualityBundle\Repository;
 
+use App\Entity\Actuality\Category;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
-use WebEtDesign\ActualityBundle\Entity\Actuality;
+use WebEtDesign\ActualityBundle\Entity\WDActuality;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use WebEtDesign\ActualityBundle\Entity\Category;
+use WebEtDesign\ActualityBundle\Entity\WDCategory;
 
 /**
- * @method Actuality|null find($id, $lockMode = null, $lockVersion = null)
- * @method Actuality|null findOneBy(array $criteria, array $orderBy = null)
- * @method Actuality[]    findAll()
- * @method Actuality[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method WDActuality|null find($id, $lockMode = null, $lockVersion = null)
+ * @method WDActuality|null findOneBy(array $criteria, array $orderBy = null)
+ * @method WDActuality[]    findAll()
+ * @method WDActuality[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActualityRepository extends ServiceEntityRepository
+class WDActualityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Actuality::class);
+        parent::__construct($registry, WDActuality::class);
     }
 
     public function findPublished()
@@ -42,7 +43,7 @@ class ActualityRepository extends ServiceEntityRepository
             ->andWhere('a.category = :category')
             ->setParameter('category', $category)
             ->orderBy('a.publishedAt', 'DESC')
-            ;
+        ;
 
         return $qb;
     }

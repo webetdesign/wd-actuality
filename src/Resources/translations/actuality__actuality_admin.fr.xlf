@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr" trgLang="fr">
+  <file id="actuality__actuality_admin.fr">
+    <unit id="tpMxmoe" name="list.label_id">
+      <segment>
+        <source>list.label_id</source>
+        <target>Id</target>
+      </segment>
+    </unit>
+    <unit id="tV27bmM" name="list.label_title">
+      <segment>
+        <source>list.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+    <unit id="mdZybao" name="list.label_category">
+      <segment>
+        <source>list.label_category</source>
+        <target>Catégorie</target>
+      </segment>
+    </unit>
+    <unit id="3tna7zN" name="list.label_published">
+      <segment>
+        <source>list.label_published</source>
+        <target>Publiée</target>
+      </segment>
+    </unit>
+    <unit id="2Mhm74o" name="list.label_published_at">
+      <segment>
+        <source>list.label_published_at</source>
+        <target>Publiée le</target>
+      </segment>
+    </unit>
+    <unit id="vINylMw" name="list.label_created_at">
+      <segment>
+        <source>list.label_created_at</source>
+        <target>Crée le</target>
+      </segment>
+    </unit>
+    <unit id="5bQGDCR" name="list.label_updated_at">
+      <segment>
+        <source>list.label_updated_at</source>
+        <target>Modifiée le</target>
+      </segment>
+    </unit>
+    <unit id="oWTNLVb" name="list.label__actions">
+      <segment>
+        <source>list.label__actions</source>
+        <target>Actions</target>
+      </segment>
+    </unit>
+    <unit id="8jN4uC9" name="show.group_actualités">
+      <segment>
+        <source>show.group_actualités</source>
+        <target>Actualité</target>
+      </segment>
+    </unit>
+    <unit id="1PhAL9o" name="show.label_id">
+      <segment>
+        <source>show.label_id</source>
+        <target>Id</target>
+      </segment>
+    </unit>
+    <unit id="b6HXQCs" name="show.label_title">
+      <segment>
+        <source>show.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+    <unit id="2YU7foA" name="show.label_slug">
+      <segment>
+        <source>show.label_slug</source>
+        <target>Slug</target>
+      </segment>
+    </unit>
+    <unit id="uGdsokp" name="show.label_thumbnail">
+      <segment>
+        <source>show.label_thumbnail</source>
+        <target>Vignette</target>
+      </segment>
+    </unit>
+    <unit id="0Cx4vgI" name="show.label_excerpt">
+      <segment>
+        <source>show.label_excerpt</source>
+        <target>Extrait</target>
+      </segment>
+    </unit>
+    <unit id="variTzF" name="show.label_content">
+      <segment>
+        <source>show.label_content</source>
+        <target>Contenu</target>
+      </segment>
+    </unit>
+    <unit id="vpAeuk9" name="show.label_created_at">
+      <segment>
+        <source>show.label_created_at</source>
+        <target>Crée le</target>
+      </segment>
+    </unit>
+    <unit id="mG3hVEu" name="show.label_updated_at">
+      <segment>
+        <source>show.label_updated_at</source>
+        <target>Modifiée le</target>
+      </segment>
+    </unit>
+    <unit id="ZW9SYM0" name="show.label_published">
+      <segment>
+        <source>show.label_published</source>
+        <target>Publiée</target>
+      </segment>
+    </unit>
+    <unit id=".CwxBzb" name="show.label_published_at">
+      <segment>
+        <source>show.label_published_at</source>
+        <target>Publiée le</target>
+      </segment>
+    </unit>
+    <unit id="eojYhzN" name="breadcrumb.link_actuality_list">
+      <segment>
+        <source>breadcrumb.link_actuality_list</source>
+        <target>Actualité</target>
+      </segment>
+    </unit>
+    <unit id="gI99r4h" name="form.group_actuality">
+      <segment>
+        <source>form.group_actuality</source>
+        <target>Actualité</target>
+      </segment>
+    </unit>
+    <unit id="s8tHz7B" name="form.group_s_e_o">
+      <segment>
+        <source>form.group_s_e_o</source>
+        <target>SEO</target>
+      </segment>
+    </unit>
+    <unit id="VbXLdxp" name="form.group_general">
+      <segment>
+        <source>form.group_general</source>
+        <target>Général</target>
+      </segment>
+    </unit>
+    <unit id="hEFmOyL" name="form.label_title">
+      <segment>
+        <source>form.label_title</source>
+        <target>Titre</target>
+      </segment>
+    </unit>
+    <unit id="ReJdiSk" name="form.label_thumbnail">
+      <segment>
+        <source>form.label_thumbnail</source>
+        <target>Vignette</target>
+      </segment>
+    </unit>
+    <unit id="toevr1X" name="form.label_category">
+      <segment>
+        <source>form.label_category</source>
+        <target>Catégorie</target>
+      </segment>
+    </unit>
+    <unit id="A97iKuh" name="form.group_publication">
+      <segment>
+        <source>form.group_publication</source>
+        <target>Publication</target>
+      </segment>
+    </unit>
+    <unit id="IE6XvLs" name="form.label_draft">
+      <segment>
+        <source>form.label_draft</source>
+        <target>Brouillon</target>
+      </segment>
+    </unit>
+    <unit id="7OQ6H2C" name="form.label_published">
+      <segment>
+        <source>form.label_published</source>
+        <target>Publiée ?</target>
+      </segment>
+    </unit>
+    <unit id="nI4Ybaf" name="form.label_published_at">
+      <segment>
+        <source>form.label_published_at</source>
+        <target>Publiée le</target>
+      </segment>
+    </unit>
+    <unit id="77vRR4H" name="form.group_content">
+      <segment>
+        <source>form.group_content</source>
+        <target>Contenus</target>
+      </segment>
+    </unit>
+    <unit id="dvpCPGw" name="form.label_excerpt">
+      <segment>
+        <source>form.label_excerpt</source>
+        <target>Extrait</target>
+      </segment>
+    </unit>
+    <unit id="FjDlKSt" name="A short introducing text">
+      <segment>
+        <source>A short introducing text</source>
+        <target>Court texte d'introduction</target>
+      </segment>
+    </unit>
+    <unit id="_Zhah40" name="form.label_content">
+      <segment>
+        <source>form.label_content</source>
+        <target>Contenu</target>
+      </segment>
+    </unit>
+    <unit id="OfN9Zgd" name="form.label_actuality_media">
+      <segment>
+        <source>form.label_actuality_media</source>
+        <target>Images</target>
+      </segment>
+    </unit>
+    <unit id="nxueWtG" name="form.group_général">
+      <segment>
+        <source>form.group_général</source>
+        <target>Général</target>
+      </segment>
+    </unit>
+    <unit id="5iRlrIq" name="form.label_seo_title">
+      <segment>
+        <source>form.label_seo_title</source>
+        <target>Titre (balise title)</target>
+      </segment>
+    </unit>
+    <unit id="oikYRIZ" name="form.label_seo_description">
+      <segment>
+        <source>form.label_seo_description</source>
+        <target>Description (balise description)</target>
+      </segment>
+    </unit>
+      <unit id="2WPNc_j" name="breadcrumb.link_actuality_create">
+          <segment>
+              <source>breadcrumb.link_actuality_create</source>
+              <target>Créer</target>
+          </segment>
+      </unit>
+  </file>
+</xliff>
