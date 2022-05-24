@@ -6,6 +6,7 @@ namespace WebEtDesign\ActualityBundle\Admin;
 
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaCollectionType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaType;
@@ -105,7 +106,10 @@ final class ActualityAdmin extends AbstractAdmin
                     'Publiée' => true
                 ]
             ])
-            ->add('publishedAt', DateTimePickerType::class)
+            ->add('publishedAt', DateTimeType::class, [
+                'widget' => 'single_text',
+                'attr'           => ["autocomplete" => "off"]
+            ])
             ->end();
 
         $formMapper

@@ -2,6 +2,7 @@
 
 namespace WebEtDesign\ActualityBundle\Repository;
 
+use App\Entity\Actuality\Category;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use WebEtDesign\ActualityBundle\Entity\WDActuality;
@@ -33,7 +34,7 @@ class WDActualityRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findPublishedByCategory(WDCategory $category)
+    public function findPublishedByCategory(Category $category)
     {
         $qb = $this->createQueryBuilder('a');
         $qb->where('a.published = 1')
@@ -42,7 +43,7 @@ class WDActualityRepository extends ServiceEntityRepository
             ->andWhere('a.category = :category')
             ->setParameter('category', $category)
             ->orderBy('a.publishedAt', 'DESC')
-            ;
+        ;
 
         return $qb;
     }
