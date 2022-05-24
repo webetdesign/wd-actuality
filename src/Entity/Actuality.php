@@ -73,7 +73,22 @@ class Actuality
      * @ORM\ManyToOne(targetEntity="WebEtDesign\ActualityBundle\Entity\Category", inversedBy="actualities")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
+<<<<<<< Updated upstream:src/Entity/Actuality.php
     private ?Category $category;
+=======
+    protected ?Category $category = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ActualityMedia::class, mappedBy="actuality", cascade={"persist", "remove"}))
+     * @OrderBy({"position" = "ASC"})
+     */
+    protected Collection $pictures;
+
+    public function __construct()
+    {
+        $this->pictures = new ArrayCollection();
+    }
+>>>>>>> Stashed changes:src/Entity/WDActuality.php
 
     public function __toString()
     {
@@ -180,4 +195,37 @@ class Actuality
 
         return $this;
     }
+<<<<<<< Updated upstream:src/Entity/Actuality.php
+=======
+
+    /**
+     * @return Collection<int, ActualityMedia>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(ActualityMedia $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setActuality($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(ActualityMedia $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getActuality() === $this) {
+                $picture->setActuality(null);
+            }
+        }
+
+        return $this;
+    }
+>>>>>>> Stashed changes:src/Entity/WDActuality.php
 }

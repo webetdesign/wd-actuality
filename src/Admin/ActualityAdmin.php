@@ -103,6 +103,19 @@ final class ActualityAdmin extends AbstractAdmin
                         'rows' => 15
                     ]
                 ])
+<<<<<<< Updated upstream
+=======
+            ->add('pictures', ActualityMediaCollectionType::class, [
+                'entry_type' => ActualityMediaType::class,
+                'entry_options' => [
+                    'actuality' => $this->getSubject()
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference'  => false,
+                'block_prefix' => 'test'
+            ])
+>>>>>>> Stashed changes
             ->end();
 
         $formMapper
