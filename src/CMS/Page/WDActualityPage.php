@@ -28,7 +28,7 @@ abstract class WDActualityPage extends AbstractPage
 
     protected ?string $template = 'pages/actuality/actuality.html.twig';
 
-    protected ?string $label = 'Actualité';
+    protected ?string $label = 'Page actualité';
 
     public function getRoute(): ?RouteDefinition
     {

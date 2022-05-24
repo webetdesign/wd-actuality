@@ -26,7 +26,7 @@ abstract class WDActualitiesPage extends AbstractPage
 
     protected ?string $template = 'pages/actuality/list.html.twig';
 
-    protected ?string $label = 'List des actualités';
+    protected ?string $label = 'Listing des actualités';
 
     public function getRoute(): ?RouteDefinition
     {
