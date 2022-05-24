@@ -133,7 +133,7 @@ final class ActualityAdmin extends AbstractAdmin
                         'rows' => 15
                     ]
                 ])
-            ->add('actualityMedia', ActualityMediaCollectionType::class, [
+            ->add('pictures', ActualityMediaCollectionType::class, [
                 'entry_type' => ActualityMediaType::class,
                 'entry_options' => [
                     'actuality' => $this->getSubject()

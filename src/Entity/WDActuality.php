@@ -83,11 +83,11 @@ abstract class WDActuality
      * @ORM\OneToMany(targetEntity=ActualityMedia::class, mappedBy="actuality", cascade={"persist", "remove"}))
      * @OrderBy({"position" = "ASC"})
      */
-    protected Collection $actualityMedia;
+    protected Collection $pictures;
 
     public function __construct()
     {
-        $this->actualityMedia = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function __toString()
@@ -223,6 +223,35 @@ abstract class WDActuality
             // set the owning side to null (unless already changed)
             if ($actualityMedium->getActuality() === $this) {
                 $actualityMedium->setActuality(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, ActualityMedia>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(ActualityMedia $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setActuality($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(ActualityMedia $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getActuality() === $this) {
+                $picture->setActuality(null);
             }
         }
 
