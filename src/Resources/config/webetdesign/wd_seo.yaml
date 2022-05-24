@@ -1,7 +1,7 @@
 wd_seo:
   sitemap:
     - section: actuality
-      query: 'Select a.slug as actuality from actuality__actuality a where a.published and not a.draft and a.published_at < now();'
+      query: 'Select a.slug as actuality from actuality__actuality a where a.published and a.published_at < now();'
       route: actuality
       parameters:
         priority: 0.3
