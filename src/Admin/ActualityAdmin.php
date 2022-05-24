@@ -117,7 +117,7 @@ final class ActualityAdmin extends AbstractAdmin
         $formMapper
             ->tab('content');
         $formMapper
-            ->with('Content', ['box_class' => 'box box-primary'])
+            ->with('Content', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
             ->add('excerpt', CKEditorType::class,
                 [
                     'required'         => false,
@@ -133,6 +133,8 @@ final class ActualityAdmin extends AbstractAdmin
                         'rows' => 15
                     ]
                 ])
+            ->end()
+            ->with('Images', ['class' => 'col-md-4','box_class' => 'box box-primary'])
             ->add('pictures', ActualityMediaCollectionType::class, [
                 'entry_type' => ActualityMediaType::class,
                 'entry_options' => [

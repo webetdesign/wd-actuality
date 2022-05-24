@@ -14,3 +14,11 @@ services:
     autowire: true
     tags:
       - { name: "kernel.event_subscriber", priority: 100 }
+
+  WebEtDesign\ActualityBundle\Maker\MakeActualityBundleSrc:
+    autowire: true
+    autoconfigure: true
+    arguments:
+      - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'
+    tags:
+      - 'maker.command'

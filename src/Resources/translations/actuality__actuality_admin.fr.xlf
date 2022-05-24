@@ -205,9 +205,15 @@
         <target>Contenu</target>
       </segment>
     </unit>
-    <unit id="OfN9Zgd" name="form.label_actuality_media">
+    <unit id="XVG6IQi" name="form.group_images">
       <segment>
-        <source>form.label_actuality_media</source>
+        <source>form.group_images</source>
+        <target>Images</target>
+      </segment>
+    </unit>
+    <unit id="OfN9Zgd" name="form.label_pictures">
+      <segment>
+        <source>form.label_pictures</source>
         <target>Images</target>
       </segment>
     </unit>
