@@ -25,7 +25,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MakeActualityBundleSrc implements MakerInterface
 {
+    const SKELETON_DIR = __DIR__ . '/../Resources/makerSkeleton';
     private string $projectDir;
+    private ?ConsoleStyle $io = null;
+    private array $filesCreatedSuccessfully = [];
+    private array $filesAlreadyExist = [];
 
     public function __construct(ParameterBagInterface $parameterBag)
     {
@@ -48,59 +52,145 @@ class MakeActualityBundleSrc implements MakerInterface
 
     public function generate(InputInterface $input, ConsoleStyle $io, Generator $generator): void
     {
-        // Css
-        // JS
-        // ENTITY
-        // REPOSITORY
-        // PAGE
-        // TRMPLATE
+        $this->io = $io;
 
+        $this->generateEntities();
+        $this->generateRepositories();
+        $this->generateTemplates();
+        $this->generatePages();
+        $this->generateJs();
+        $this->generateCss();
 
-        $files = [];
-
-        $actualityTemplate = 'actuality.html.twig';
-        $actualitiesTemplate = 'actualities.html.twig';
-
-        $actualityPage = 'ActualityPage.php';
-        $actualitiesPage = 'ActualitiesPage.php';
-
-        $mediaActualityCollectionCss = '_actuality_media_collection.scss';
-        $mediaActualityCollectionStimulusController = 'actuality-media-collection_controller.js';
-
-        $actualityEntity = 'Actuality.php';
-        $categoryEntity = 'Category.php';
-        $actualityMediaEntity = 'ActualityMedia.php';
-
-        $actualityRepository = 'ActualityRepository.php';
-        $categoryRepository = 'CategoryRepository.php';
-        $actualityMediaRepository = 'ActualityMedia.php';
-
-
-//        $generator->generateFile();
-
-//
-//        $generator->writeChanges();
-
-        $io->success('gfeôc fe');
-        $io->text('Next: Open your new controller class and add some pages!');
+        $this->showLogs();
     }
 
     private function generateTemplates(): void
     {
-        $generator->generateTemplate(
-            $templateName,
-            'controller/twig_template.tpl.php',
+        $templates = [
             [
-                'controller_path' => $controllerPath,
-                'root_directory' => $generator->getRootDirectory(),
-                'class_name' => $controllerClassNameDetails->getShortName(),
+                'targetPath' => 'templates/pages/actuality/actualities.html.twig',
+                'templateName' => $this::SKELETON_DIR  . '/templates/actualities.html.twig'
+            ],
+            [
+                'targetPath' => 'templates/pages/actuality/actuality.html.twig',
+                'templateName' => $this::SKELETON_DIR  . '/templates/actuality.html.twig'
             ]
-        );
+        ];
+
+        $this->generateFiles($templates);
     }
 
-    private function isTwigInstalled(): bool
+    private function generateRepositories(): void
     {
-        return class_exists(TwigBundle::class);
+        $repositories = [
+            [
+                'targetPath' => 'src/Repository/Actuality/ActualityRepository.php',
+                'templateName' => $this::SKELETON_DIR  . '/repository/ActualityRepository.php'
+            ],
+            [
+                'targetPath' => 'src/Repository/Actuality/CategoryRepository.php',
+                'templateName' => $this::SKELETON_DIR  . '/repository/CategoryRepository.php'
+            ],
+            [
+                'targetPath' => 'src/Repository/Actuality/ActualityMediaRepository.php',
+                'templateName' => $this::SKELETON_DIR  . '/repository/ActualityMediaRepository.php'
+            ],
+        ];
+
+        $this->generateFiles($repositories);
+    }
+
+    private function generateEntities(): void
+    {
+        $entities = [
+            [
+                'targetPath' => 'src/Entity/Actuality/Actuality.php',
+                'templateName' => $this::SKELETON_DIR  . '/entity/Actuality.php'
+            ],
+            [
+                'targetPath' => 'src/Entity/Actuality/Category.php',
+                'templateName' => $this::SKELETON_DIR  . '/entity/Category.php'
+            ],
+            [
+                'targetPath' => 'src/Entity/Actuality/ActualityMedia.php',
+                'templateName' => $this::SKELETON_DIR  . '/entity/ActualityMedia.php'
+            ],
+        ];
+
+        $this->generateFiles($entities);
+    }
+
+    private function generatePages(): void
+    {
+        $pages = [
+            [
+                'targetPath' => 'src/CMS/Page/Actuality/ActualitiesPage.php',
+                'templateName' => $this::SKELETON_DIR  . '/pages/ActualitiesPage.php'
+            ],
+            [
+                'targetPath' => 'src/CMS/Page/Actuality/ActualityPage.php',
+                'templateName' => $this::SKELETON_DIR  . '/pages/ActualityPage.php'
+            ]
+        ];
+
+        $this->generateFiles($pages);
+    }
+
+    private function generateJs(): void
+    {
+        $js = [
+            [
+                'targetPath' => 'assets/admin/controllers/actuality-media-collection_controller.js',
+                'templateName' => $this::SKELETON_DIR  . '/js/actuality-media-collection_controller.js'
+            ]
+        ];
+
+        $this->generateFiles($js);
+    }
+
+    private function generateCss(): void
+    {
+        $css = [
+            [
+                'targetPath' => 'assets/admin/css/components/_actuality_media_collection.scss',
+                'templateName' => $this::SKELETON_DIR  . '/css/_actuality_media_collection.scss'
+            ]
+        ];
+
+        $this->generateFiles($css);
+    }
+
+    /*
+     * $files = [['targetPath' => '', 'templateName' => ''], ...]
+     */
+    private function generateFiles(array $files):void
+    {
+
+        foreach ($files as $file) {
+            $destinationPath = $this->projectDir . '/' . $file['targetPath'];
+
+            if (!file_exists($destinationPath)) {
+                $path = pathinfo($destinationPath);
+                if (!is_dir($path['dirname'])){
+                    mkdir($path['dirname'],0777, true);
+                }
+                copy($file['templateName'], $this->projectDir . '/' . $file['targetPath']);
+                $this->filesCreatedSuccessfully[] = $file['targetPath'];
+            }else{
+                $this->filesAlreadyExist[] = $file['targetPath'];
+            }
+        }
+    }
+
+    private function showLogs():void
+    {
+        foreach ($this->filesAlreadyExist as $file) {
+            $this->io->warning($file . ' already exist');
+        }
+
+        foreach ($this->filesCreatedSuccessfully as $file) {
+            $this->io->success($file . ' has been created');
+        }
     }
 
     public function configureDependencies(DependencyBuilder $dependencies)

@@ -1,0 +1,12 @@
+[data-controller="actuality-media-collection"] {
+    [data-actuality-media-collection-target="items"]:first-child {
+        [data-actuality-media-collection-target="arrowUp"] {
+            display: none;
+        }
+    }
+    [data-actuality-media-collection-target="items"]:last-child {
+        [data-actuality-media-collection-target="arrowDown"] {
+            display: none;
+        }
+    }
+}

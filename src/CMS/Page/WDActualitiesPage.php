@@ -24,7 +24,7 @@ abstract class WDActualitiesPage extends AbstractPage
     public const code = "ACTUALITIES";
     public const routeName = "category_actuality";
 
-    protected ?string $template = 'pages/actuality/list.html.twig';
+    protected ?string $template = 'pages/actuality/actualities.html.twig';
 
     protected ?string $label = 'Listing des actualités';
 
