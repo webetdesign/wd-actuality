@@ -29,7 +29,7 @@ abstract class WDActualitiesPage extends AbstractPage
 
     protected ?string $label = 'Listing des actualités';
 
-    protected bool $useCategory;
+    protected bool $useCategory = true;
 
     public function __construct(ParameterBagInterface $parameterBag)
     {
