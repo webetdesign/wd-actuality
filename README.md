@@ -115,7 +115,7 @@ twig:
 web_et_design_cms:
   pages:
     actuality:
-      label: Actualitée
+      label: Actualité
       controller: WebEtDesign\ActualityBundle\Controller\ActualityController
       action: __invoke
       # If global vars is enable in project
@@ -136,7 +136,7 @@ web_et_design_cms:
         # TODO add contents according to your needs
         - { label: 'title', code: 'title', type: 'TEXT' }
     actualities:
-      label: Actualitée listing
+      label: Actualité listing
       controller: WebEtDesign\ActualityBundle\Controller\ActualityController
       action: list
       params:

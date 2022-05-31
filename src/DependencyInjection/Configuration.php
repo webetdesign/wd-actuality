@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('configuration')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('result_limit')->defaultValue(9)->end()
+                        ->scalarNode('use_category')->defaultValue(true)->end()
                     ->end()
                 ->end()
             ->end();

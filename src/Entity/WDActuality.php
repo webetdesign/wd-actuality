@@ -75,7 +75,7 @@ abstract class WDActuality
     /**
      * @var null|Category
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="actualities")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
     protected ?Category $category = null;
 

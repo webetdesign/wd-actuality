@@ -5,6 +5,7 @@ namespace WebEtDesign\ActualityBundle\CMS\Page;
 use App\Entity\Actuality\Actuality;
 use App\Entity\Actuality\Category;
 use App\Entity\User\User;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use WebEtDesign\ActualityBundle\Controller\ActualityController;
 use WebEtDesign\CmsBundle\Attribute\AsCmsPage;
 use WebEtDesign\CmsBundle\CmsBlock\CheckboxBlock;
@@ -30,19 +31,42 @@ abstract class WDActualityPage extends AbstractPage
 
     protected ?string $label = 'Page actualité';
 
+    private bool $useCategory;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
+    }
+    
     public function getRoute(): ?RouteDefinition
     {
-        return RouteDefinition::new()
+        $routeDefinition = RouteDefinition::new()
             ->setController(ActualityController::class)
-            ->setPath('/actualite/{category}/{actuality}')
-            ->setName( self::routeName)
-            ->setAttributes([
-                RouteAttributeDefinition::new('category')
-                    ->setEntityClass(Category::class)
-                    ->setEntityProperty('slug'),
-                RouteAttributeDefinition::new('page')
-                    ->setEntityClass(Actuality::class)
-                    ->setEntityProperty('slug'),
-            ]);
+            ->setName( self::routeName);
+        
+        if ($this->useCategory) {
+            $routeDefinition
+                ->setAttributes([
+                    RouteAttributeDefinition::new('category')
+                        ->setEntityClass(Category::class)
+                        ->setEntityProperty('slug')
+                        ->setDefault(null)
+                    ,
+                    RouteAttributeDefinition::new('actuality')
+                        ->setEntityClass(Actuality::class)
+                        ->setEntityProperty('slug'),
+                ])
+                ->setPath('/actualite/{category}/{actuality}');
+        }else{
+            $routeDefinition
+                ->setAttributes([
+                    RouteAttributeDefinition::new('actuality')
+                        ->setEntityClass(Actuality::class)
+                        ->setEntityProperty('slug'),
+                ])
+                ->setPath('/actualite/{actuality}');
+        }
+        
+        return $routeDefinition;
     }
 }

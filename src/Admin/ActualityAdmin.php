@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WebEtDesign\ActualityBundle\Admin;
 
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
@@ -27,6 +28,18 @@ use Sonata\Form\Type\DateTimePickerType;
 
 final class ActualityAdmin extends AbstractAdmin
 {
+    private bool $useCategory;
+
+    public function __construct(
+        ?string $code = null,
+        ?string $class = null,
+        ?string $baseControllerName = null,
+        array $actualityConfig
+    )
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->useCategory = $actualityConfig['use_category'];
+    }
 
     use SmoOpenGraphAdminTrait;
     use SmoTwitterAdminTrait;
@@ -56,8 +69,11 @@ final class ActualityAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->addIdentifier('title')
-            ->addIdentifier('category')
+            ->addIdentifier('title');
+        if ($this->useCategory) {
+           $listMapper->add('category');
+        }
+        $listMapper
             ->add('published', null, ['format' => 'd/m/Y H:i:s'])
             ->add('publishedAt',null, ['format' => 'd/m/Y H:i:s'])
             ->add('createdAt',null, ['format' => 'd/m/Y H:i:s'])
@@ -85,15 +101,19 @@ final class ActualityAdmin extends AbstractAdmin
             ->with('General', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
             ->add('title')
             ->add('thumbnail', WDMediaType::class, [
-                'category' => 'actuality_thumbnail'
-            ])
-            ->add('category', ModelListType::class, [
+                    'category' => 'actuality_thumbnail'
+            ]);
+
+        if ($this->useCategory) {
+            $formMapper->add('category', ModelListType::class, [
                 'required' => true,
                 'constraints' => [
                     new NotNull()
                 ]
-            ])
-            ->end();
+            ]);
+        }
+
+        $formMapper->end();
 
         $formMapper
             ->with('Publication', ['class' => 'col-md-4', 'box_class' => 'box box-warning'])

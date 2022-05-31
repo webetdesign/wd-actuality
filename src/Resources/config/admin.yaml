@@ -1,7 +1,7 @@
 services:
   wd_actuality.admin.actuality:
     class: WebEtDesign\ActualityBundle\Admin\ActualityAdmin
-    arguments: [~, 'App\Entity\Actuality\Actuality', ~]
+    arguments: [~, 'App\Entity\Actuality\Actuality', ~, '%wd_actuality.config%']
     tags:
       - { name: sonata.admin, manager_type: orm, group: Actualilty, label: Actualités, icon: <i class="fa fa-newspaper-o" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true

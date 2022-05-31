@@ -24,29 +24,28 @@ class ActualityController extends BaseCmsController
      */
     private ParameterBagInterface $parameterBag;
 
+    private bool $useCategory;
+
     /**
      * @inheritDoc
     */
     public function __construct($config, ParameterBagInterface $parameterBag) {
         $this->config = $config;
         $this->parameterBag = $parameterBag;
+        $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
     }
 
     /**
      * @param Request $req$now = new DateTime('now');
-
-        if (!$actuality->getPublished() || $actuality->getPublishedAt() === null || $actuality->getPublishedAt()->getTimestamp() > $now->getTimestamp()) {
-            throw new AccessDeniedHttpException();
-        }uest
      * @param Category $category
      * @param Actuality $actuality
      * @return Response|ResourceNotFoundException
      * @ParamConverter("actuality", class="App\Entity\Actuality\Actuality", options={"mapping": {"actuality": "slug"}})
      * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
-    public function __invoke(Request $request, Category $category, Actuality $actuality){
+    public function __invoke(Request $request, Actuality $actuality, Category $category = null){
 
-        if (!$category || !$actuality) {
+        if (!$actuality || ($this->useCategory && !$category)) {
             return new ResourceNotFoundException();
         }
 

@@ -22,3 +22,16 @@ services:
       - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'
     tags:
       - 'maker.command'
+
+  WebEtDesign\ActualityBundle\CMS\Page\WDActualitiesPage:
+    autowire: true
+    autoconfigure: true
+    arguments:
+      - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'
+
+
+  WebEtDesign\ActualityBundle\CMS\Page\WDActualityPage:
+    autowire: true
+    autoconfigure: true
+    arguments:
+      - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'

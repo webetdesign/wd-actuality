@@ -4,6 +4,7 @@ namespace WebEtDesign\ActualityBundle\CMS\Page;
 
 use App\Entity\Actuality\Category;
 use App\Entity\User\User;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use WebEtDesign\ActualityBundle\Controller\ActualityController;
 use WebEtDesign\CmsBundle\Attribute\AsCmsPage;
 use WebEtDesign\CmsBundle\CmsBlock\CheckboxBlock;
@@ -28,18 +29,33 @@ abstract class WDActualitiesPage extends AbstractPage
 
     protected ?string $label = 'Listing des actualités';
 
+    private bool $useCategory;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
+    }
+    
     public function getRoute(): ?RouteDefinition
     {
-        return RouteDefinition::new()
+        $routeDefinition =  RouteDefinition::new()
             ->setController(ActualityController::class)
             ->setAction('list')
-            ->setPath('/actualite/{category}')
-            ->setName( self::routeName)
-            ->setAttributes([
-                RouteAttributeDefinition::new('category')
-                    ->setEntityClass(Category::class)
-                    ->setEntityProperty('slug')
-                    ->setDefault(null)
-            ]);
+            ->setName( self::routeName);
+
+        if ($this->useCategory) {
+            $routeDefinition
+                ->setAttributes([
+                    RouteAttributeDefinition::new('category')
+                        ->setEntityClass(Category::class)
+                        ->setEntityProperty('slug')
+                        ->setDefault(null)
+                ])
+                ->setPath('/actualite/{category}');
+        }else{
+            $routeDefinition->setPath('/actualite');
+        }
+        
+        return $routeDefinition;
     }
 }

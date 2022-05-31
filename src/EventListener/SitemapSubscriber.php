@@ -3,7 +3,8 @@
 
 namespace WebEtDesign\ActualityBundle\EventListener;
 
-
+use App\Entity\Actuality\Actuality;
+use DateTime;
 use App\Entity\Actuality\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
@@ -11,6 +12,7 @@ use Presta\SitemapBundle\Service\UrlContainerInterface;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SitemapSubscriber implements EventSubscriberInterface
@@ -21,7 +23,8 @@ class SitemapSubscriber implements EventSubscriberInterface
     private UrlGeneratorInterface  $urlGenerator;
     private ParameterBagInterface  $parameterBag;
     private EntityManagerInterface $entityManager;
-
+    private bool $useCategory;
+    
     /**
      * @param UrlGeneratorInterface $urlGenerator
      * @param ParameterBagInterface $parameterBag
@@ -30,11 +33,12 @@ class SitemapSubscriber implements EventSubscriberInterface
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         ParameterBagInterface $parameterBag,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
     ) {
         $this->urlGenerator  = $urlGenerator;
         $this->parameterBag  = $parameterBag;
         $this->entityManager = $entityManager;
+        $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
     }
 
     public static function getSubscribedEvents(): array
@@ -49,10 +53,47 @@ class SitemapSubscriber implements EventSubscriberInterface
      */
     public function populate(SitemapPopulateEvent $event): void
     {
-        $this->registerDynamicUrls($event->getUrlContainer());
+        if ($this->useCategory) {
+            $this->useCategoryRegisterDynamicUrls($event->getUrlContainer());
+        }else{
+            $this->notUseCategoryRegisterDynamicUrls($event->getUrlContainer());
+        }
     }
 
-    private function registerDynamicUrls(UrlContainerInterface $urls)
+    private function notUseCategoryRegisterDynamicUrls(UrlContainerInterface $urls)
+    {
+        $config = $this->parameterBag->get('wd_actuality.seo');
+
+        foreach ($this->entityManager->getRepository(Actuality::class)->findAll() as $actuality) {
+            $now = new DateTime('now');
+
+            if (!$actuality->getPublished() || $actuality->getPublishedAt() === null || $actuality->getPublishedAt()->getTimestamp() > $now->getTimestamp()) {
+                continue;
+            }
+            
+            $context = $this->urlGenerator->getContext();
+            if (isset($config['host'])) {
+                $context->setHost($config['host']);
+            }
+            if (isset($config['scheme'])) {
+                $context->setScheme($config['scheme']);
+            }
+
+            $this->urlGenerator->setContext($context);
+
+            $url = new UrlConcrete($this->urlGenerator->generate($config['actuality_route_name'], [
+                "actuality" => $actuality->getSlug()
+            ],
+                UrlGeneratorInterface::ABSOLUTE_URL),
+                $actuality->getUpdatedAt(),
+                $config['changefreq'] ?? null,
+                $config['priority'] ?? null
+            );
+            $urls->addUrl($url, 'actuality');
+        }
+    }
+    
+    private function useCategoryRegisterDynamicUrls(UrlContainerInterface $urls)
     {
         $config = $this->parameterBag->get('wd_actuality.seo');
 
@@ -65,8 +106,7 @@ class SitemapSubscriber implements EventSubscriberInterface
             if (isset($config['scheme'])) {
                 $context->setScheme($config['scheme']);
             }
-
-
+            
             $this->urlGenerator->setContext($context);
 
             $url = new UrlConcrete($this->urlGenerator->generate($config['category_route_name'], [
@@ -80,6 +120,11 @@ class SitemapSubscriber implements EventSubscriberInterface
             $urls->addUrl($url, 'actuality');
 
             foreach ($category->getActualities() as $actuality) {
+                $now = new DateTime('now');
+
+                if (!$actuality->getPublished() || $actuality->getPublishedAt() === null || $actuality->getPublishedAt()->getTimestamp() > $now->getTimestamp()) {
+                    continue;
+                }
                 $context = $this->urlGenerator->getContext();
                 if (isset($config['host'])) {
                     $context->setHost($config['host']);
@@ -102,8 +147,5 @@ class SitemapSubscriber implements EventSubscriberInterface
                 $urls->addUrl($url, 'actuality');
             }
         }
-
-
     }
-
 }
