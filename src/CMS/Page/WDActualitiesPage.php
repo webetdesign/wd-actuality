@@ -23,7 +23,7 @@ use WebEtDesign\MediaBundle\Blocks\MediaBlock;
 abstract class WDActualitiesPage extends AbstractPage
 {
     public const code = "ACTUALITIES";
-    public const routeName = "category_actuality";
+    public const routeName = "actualities";
 
     protected ?string $template = 'pages/actuality/actualities.html.twig';
 
