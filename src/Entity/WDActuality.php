@@ -8,8 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use WebEtDesign\MediaBundle\Entity\Media;
 use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
@@ -20,12 +21,13 @@ use App\Entity\Actuality\ActualityMedia;
 /**
  * @ORM\MappedSuperclass()
  */
-abstract class WDActuality
+abstract class WDActuality   implements TranslatableInterface
 {
     use TimestampableEntity;
     use SeoAwareTrait;
     use SmoOpenGraphTrait;
     use SmoTwitterTrait;
+    use TranslatableTrait;
 
     /**
      * @ORM\Id()
@@ -34,16 +36,16 @@ abstract class WDActuality
      */
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    protected string $title = '';
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"title"})
-     */
-    protected ?string $slug = null;
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     */
+//    protected string $title = '';
+//
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     * @Gedmo\Slug(fields={"title"})
+//     */
+//    protected ?string $slug = null;
 
     /**
      * @var null|Media
@@ -52,15 +54,15 @@ abstract class WDActuality
      */
     protected ?Media $thumbnail = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected ?string $excerpt = null;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected ?string $content = null;
+//    /**
+//     * @ORM\Column(type="text", nullable=true)
+//     */
+//    protected ?string $excerpt = null;
+//
+//    /**
+//     * @ORM\Column(type="text", nullable=true)
+//     */
+//    protected ?string $content = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -92,7 +94,7 @@ abstract class WDActuality
 
     public function __toString()
     {
-        return (string) $this->getTitle();
+        return (string) $this->translate($this->getCurrentLocale())->getTitle();
     }
 
     public function getId(): ?int
@@ -100,32 +102,30 @@ abstract class WDActuality
         return $this->id;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
+//    public function getTitle(): ?string
+//    {
+//        return $this->title;
+//    }
+//
+//    public function setTitle(string $title): self
+//    {
+//        $this->title = $title;
+//
+//        return $this;
+//    }
 
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
 
-        return $this;
-    }    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected bool $draft = true;
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
+//    public function getSlug(): ?string
+//    {
+//        return $this->slug;
+//    }
+//
+//    public function setSlug(string $slug): self
+//    {
+//        $this->slug = $slug;
+//
+//        return $this;
+//    }
 
     public function getThumbnail(): ?Media
     {
@@ -138,30 +138,30 @@ abstract class WDActuality
 
         return $this;
     }
-
-    public function getExcerpt(): ?string
-    {
-        return $this->excerpt;
-    }
-
-    public function setExcerpt(?string $excerpt): self
-    {
-        $this->excerpt = $excerpt;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
+//
+//    public function getExcerpt(): ?string
+//    {
+//        return $this->excerpt;
+//    }
+//
+//    public function setExcerpt(?string $excerpt): self
+//    {
+//        $this->excerpt = $excerpt;
+//
+//        return $this;
+//    }
+//
+//    public function getContent(): ?string
+//    {
+//        return $this->content;
+//    }
+//
+//    public function setContent(?string $content): self
+//    {
+//        $this->content = $content;
+//
+//        return $this;
+//    }
 
     public function getPublished(): ?bool
     {
@@ -228,6 +228,7 @@ abstract class WDActuality
 
         return $this;
     }
+
     /**
      * @return Collection<int, ActualityMedia>
      */

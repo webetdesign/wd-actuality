@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "a2lix/translation-form-bundle": "3.*",
     "php": "^8.0",
     "doctrine/common": "^2.0|^3.0",
     "doctrine/doctrine-bundle": "^1.10|^2.0",

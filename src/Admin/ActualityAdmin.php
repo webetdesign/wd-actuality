@@ -60,8 +60,8 @@ final class ActualityAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('title')
-            ->add('slug')
+//            ->add('title')
+//            ->add('slug')
             ->add('published');
     }
 
@@ -69,7 +69,8 @@ final class ActualityAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->addIdentifier('title');
+//            ->addIdentifier('title')
+        ;
         if ($this->useCategory) {
            $listMapper->add('category');
         }
@@ -138,21 +139,21 @@ final class ActualityAdmin extends AbstractAdmin
             ->tab('content');
         $formMapper
             ->with('Content', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
-            ->add('excerpt', CKEditorType::class,
-                [
-                    'required'         => false,
-                    'attr'             => [
-                        'rows' => 5
-                    ],
-                    'help' => 'A short introducing text'
-                ])
-            ->add('content', CKEditorType::class,
-                [
-                    'required'         => false,
-                    'attr'             => [
-                        'rows' => 15
-                    ]
-                ])
+//            ->add('excerpt', CKEditorType::class,
+//                [
+//                    'required'         => false,
+//                    'attr'             => [
+//                        'rows' => 5
+//                    ],
+//                    'help' => 'A short introducing text'
+//                ])
+//            ->add('content', CKEditorType::class,
+//                [
+//                    'required'         => false,
+//                    'attr'             => [
+//                        'rows' => 15
+//                    ]
+//                ])
             ->end()
             ->with('Images', ['class' => 'col-md-4','box_class' => 'box box-primary'])
             ->add('pictures', ActualityMediaCollectionType::class, [
@@ -185,11 +186,11 @@ final class ActualityAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('title')
-            ->add('slug')
+//            ->add('title')
+//            ->add('slug')
             ->add('thumbnail')
-            ->add('excerpt')
-            ->add('content')
+//            ->add('excerpt')
+//            ->add('content')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('published')
