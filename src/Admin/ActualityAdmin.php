@@ -139,7 +139,8 @@ final class ActualityAdmin extends AbstractAdmin
                 'form_type'        => ActualityTitleTranslationType::class,
             ])
             ->add('thumbnail', WDMediaType::class, [
-                    'category' => 'actuality_thumbnail'
+                'category' => 'actuality_thumbnail',
+                'required' => false
             ]);
 
         if ($this->useCategory) {
