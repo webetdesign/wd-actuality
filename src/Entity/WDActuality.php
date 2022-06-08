@@ -196,20 +196,6 @@ abstract class WDActuality implements TranslatableInterface
         }
     }
 
-    public function getTranslationsExcerpt()
-    {
-        return $this->getTranslations();
-    }
-
-    public function setTranslationsExcerpt(iterable $translations): void
-    {
-        $this->ensureIsIterableOrCollection($translations);
-
-        foreach ($translations as $translation) {
-            $this->addTranslation($translation);
-        }
-    }
-
     public function getTranslationsContent()
     {
         return $this->getTranslations();

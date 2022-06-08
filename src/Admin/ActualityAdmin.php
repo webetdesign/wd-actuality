@@ -122,7 +122,6 @@ final class ActualityAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper): void
     {
-
         $this->setFormTheme(array_merge($this->getFormTheme(), [
             '@Actuality/formTheme/actuality_media_type.html.twig',
         ]));
@@ -144,7 +143,7 @@ final class ActualityAdmin extends AbstractAdmin
             ]);
 
         if ($this->useCategory) {
-            $formMapper->add('category', ModelListType::class, [
+            $formMapper->add('category', null, [
                 'required' => true,
                 'constraints' => [
                     new NotNull()
@@ -171,53 +170,48 @@ final class ActualityAdmin extends AbstractAdmin
             ])
             ->end();
 
-        $formMapper
-            ->end();
-        $formMapper
-            ->tab('content');
-        $formMapper
-            ->with('Content', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
-            ->add('translationsExcerpt', TranslationsFormsType::class, [
-                'label'            => false,
-                'locales'          => $this->locales,
-                'default_locale'   => $this->defaultLocale,
-                'required_locales' => [$this->defaultLocale],
-                'form_type'        => ActualityExcerptTranslationType::class,
-            ])
-            ->add('translationsContent', TranslationsFormsType::class, [
-                'label'            => false,
-                'locales'          => $this->locales,
-                'default_locale'   => $this->defaultLocale,
-                'required_locales' => [$this->defaultLocale],
-                'form_type'        => ActualityContentTranslationType::class,
-            ])
+        if ($this->getSubject()->getId() != null) {
+            $formMapper
+                ->end();
+            $formMapper
+                ->tab('content');
+            $formMapper
+                ->with('Content', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
+                ->add('translationsContent', TranslationsFormsType::class, [
+                    'label'            => false,
+                    'locales'          => $this->locales,
+                    'default_locale'   => $this->defaultLocale,
+                    'required_locales' => [$this->defaultLocale],
+                    'form_type'        => ActualityContentTranslationType::class,
+                ])
 
-            ->end()
-            ->with('Images', ['class' => 'col-md-4','box_class' => 'box box-primary'])
-            ->add('pictures', ActualityMediaCollectionType::class, [
-                'entry_type' => ActualityMediaType::class,
-                'entry_options' => [
-                    'actuality' => $this->getSubject()
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference'  => false,
-                'block_prefix' => 'test'
-            ])
-            ->end();
+                ->end()
+                ->with('Images', ['class' => 'col-md-4','box_class' => 'box box-primary'])
+                ->add('pictures', ActualityMediaCollectionType::class, [
+                    'entry_type' => ActualityMediaType::class,
+                    'entry_options' => [
+                        'actuality' => $this->getSubject()
+                    ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference'  => false,
+                    'block_prefix' => 'test'
+                ])
+                ->end();
 
-        $formMapper
-            ->end();
-        $formMapper
-            ->tab('SEO');
-        $formMapper->with('Général', ['class' => 'col-xs-12 col-md-4', 'box_class' => ''])
-            ->add('seoTitle')
-            ->add('seoDescription')
-            ->end();
-        $this->addFormFieldSmoOpenGraph($formMapper);
-        $this->addFormFieldSmoTwitter($formMapper);
-        $formMapper
-            ->end();
+            $formMapper
+                ->end();
+            $formMapper
+                ->tab('SEO');
+            $formMapper->with('Général', ['class' => 'col-xs-12 col-md-4', 'box_class' => ''])
+                ->add('seoTitle')
+                ->add('seoDescription')
+                ->end();
+            $this->addFormFieldSmoOpenGraph($formMapper);
+            $this->addFormFieldSmoTwitter($formMapper);
+            $formMapper
+                ->end();
+        }
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
