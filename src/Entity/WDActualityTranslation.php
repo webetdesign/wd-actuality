@@ -24,9 +24,9 @@ abstract class WDActualityTranslation  implements TranslationInterface
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected string $title = '';
+    protected ?string $title = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -54,7 +54,7 @@ abstract class WDActualityTranslation  implements TranslationInterface
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 

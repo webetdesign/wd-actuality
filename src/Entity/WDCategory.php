@@ -10,15 +10,22 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use WebEtDesign\RgpdBundle\Annotations\Exportable;
 
 /**
  * @ORM\MappedSuperclass()
+ * @method string setSlug(?string $str)
+ * @method string getTitle()
+ * @method string setTitle(?string $str)
  */
-abstract class WDCategory
+abstract class WDCategory implements TranslatableInterface
 {
     use TimestampableEntity;
+    use TranslatableTrait;
 
     /**
      * @ORM\Id()
@@ -26,18 +33,6 @@ abstract class WDCategory
      * @ORM\Column(type="integer")
      */
     protected ?int $id = null;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    protected string $title = '';
-
-    /**
-     * @var null|string
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"title"})
-     */
-    protected ?string $slug = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -61,6 +56,20 @@ abstract class WDCategory
         return (string) $this->getTitle();
     }
 
+    public function __call($method, $arguments)
+    {
+        if ($method == '_action') {
+            return null;
+        }
+
+        return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), $method);
+    }
+
+    public function getSlug()
+    {
+        return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), 'getSlug');
+    }
+
     public function countPublishedActuality()
     {
         $criteria = Criteria::create()
@@ -73,18 +82,6 @@ abstract class WDCategory
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getPosition(): ?int
@@ -130,22 +127,19 @@ abstract class WDCategory
         return $this;
     }
 
-    /**
-     * @param string|null $slug
-     * @return WDCategory
-     */
-    public function setSlug(?string $slug): WDCategory
+    // Getter and setter for split input in few tabs in admin form
+
+    public function getTranslationsTitle()
     {
-        $this->slug = $slug;
-        return $this;
+        return $this->getTranslations();
     }
 
-    /**
-     * @return string
-     */
-    public function getSlug(): ?string
+    public function setTranslationsTitle(iterable $translations): void
     {
-        return $this->slug;
-    }
+        $this->ensureIsIterableOrCollection($translations);
 
+        foreach ($translations as $translation) {
+            $this->addTranslation($translation);
+        }
+    }
 }

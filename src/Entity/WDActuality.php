@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\OrderBy;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use WebEtDesign\MediaBundle\Entity\Media;
 use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
@@ -20,8 +21,15 @@ use App\Entity\Actuality\ActualityMedia;
 
 /**
  * @ORM\MappedSuperclass()
+ * @method string getTitle()
+ * @method string setTitle(?string $str)
+ * @method string getExcerpt()
+ * @method string setExcerpt(?string $str)
+ * @method string getContent()
+ * @method string setContent(?string $str)
+ * @method string setSlug(?string $str)
  */
-abstract class WDActuality   implements TranslatableInterface
+abstract class WDActuality implements TranslatableInterface
 {
     use TimestampableEntity;
     use SeoAwareTrait;
@@ -36,33 +44,12 @@ abstract class WDActuality   implements TranslatableInterface
      */
     protected ?int $id = null;
 
-//    /**
-//     * @ORM\Column(type="string", length=255)
-//     */
-//    protected string $title = '';
-//
-//    /**
-//     * @ORM\Column(type="string", length=255)
-//     * @Gedmo\Slug(fields={"title"})
-//     */
-//    protected ?string $slug = null;
-
     /**
      * @var null|Media
      *
      * @ORM\ManyToOne(targetEntity="WebEtDesign\MediaBundle\Entity\Media")
      */
     protected ?Media $thumbnail = null;
-
-//    /**
-//     * @ORM\Column(type="text", nullable=true)
-//     */
-//    protected ?string $excerpt = null;
-//
-//    /**
-//     * @ORM\Column(type="text", nullable=true)
-//     */
-//    protected ?string $content = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -97,35 +84,24 @@ abstract class WDActuality   implements TranslatableInterface
         return (string) $this->translate($this->getCurrentLocale())->getTitle();
     }
 
+    public function __call($method, $arguments)
+    {
+        if ($method == '_action') {
+            return null;
+        }
+
+        return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), $method);
+    }
+
+    public function getSlug()
+    {
+        return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), 'getSlug');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
-
-//    public function getTitle(): ?string
-//    {
-//        return $this->title;
-//    }
-//
-//    public function setTitle(string $title): self
-//    {
-//        $this->title = $title;
-//
-//        return $this;
-//    }
-
-
-//    public function getSlug(): ?string
-//    {
-//        return $this->slug;
-//    }
-//
-//    public function setSlug(string $slug): self
-//    {
-//        $this->slug = $slug;
-//
-//        return $this;
-//    }
 
     public function getThumbnail(): ?Media
     {
@@ -138,30 +114,6 @@ abstract class WDActuality   implements TranslatableInterface
 
         return $this;
     }
-//
-//    public function getExcerpt(): ?string
-//    {
-//        return $this->excerpt;
-//    }
-//
-//    public function setExcerpt(?string $excerpt): self
-//    {
-//        $this->excerpt = $excerpt;
-//
-//        return $this;
-//    }
-//
-//    public function getContent(): ?string
-//    {
-//        return $this->content;
-//    }
-//
-//    public function setContent(?string $content): self
-//    {
-//        $this->content = $content;
-//
-//        return $this;
-//    }
 
     public function getPublished(): ?bool
     {
@@ -202,36 +154,6 @@ abstract class WDActuality   implements TranslatableInterface
     /**
      * @return Collection<int, ActualityMedia>
      */
-    public function getActualityMedia(): Collection
-    {
-        return $this->actualityMedia;
-    }
-
-    public function addActualityMedium(ActualityMedia $actualityMedium): self
-    {
-        if (!$this->actualityMedia->contains($actualityMedium)) {
-            $this->actualityMedia[] = $actualityMedium;
-            $actualityMedium->setActuality($this);
-        }
-
-        return $this;
-    }
-
-    public function removeActualityMedium(ActualityMedia $actualityMedium): self
-    {
-        if ($this->actualityMedia->removeElement($actualityMedium)) {
-            // set the owning side to null (unless already changed)
-            if ($actualityMedium->getActuality() === $this) {
-                $actualityMedium->setActuality(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ActualityMedia>
-     */
     public function getPictures(): Collection
     {
         return $this->pictures;
@@ -257,5 +179,48 @@ abstract class WDActuality   implements TranslatableInterface
         }
 
         return $this;
+    }
+
+    // Getter and setter for split input in few tabs in admin form
+    public function getTranslationsTitle()
+    {
+        return $this->getTranslations();
+    }
+
+    public function setTranslationsTitle(iterable $translations): void
+    {
+        $this->ensureIsIterableOrCollection($translations);
+
+        foreach ($translations as $translation) {
+            $this->addTranslation($translation);
+        }
+    }
+
+    public function getTranslationsExcerpt()
+    {
+        return $this->getTranslations();
+    }
+
+    public function setTranslationsExcerpt(iterable $translations): void
+    {
+        $this->ensureIsIterableOrCollection($translations);
+
+        foreach ($translations as $translation) {
+            $this->addTranslation($translation);
+        }
+    }
+
+    public function getTranslationsContent()
+    {
+        return $this->getTranslations();
+    }
+
+    public function setTranslationsContent(iterable $translations): void
+    {
+        $this->ensureIsIterableOrCollection($translations);
+
+        foreach ($translations as $translation) {
+            $this->addTranslation($translation);
+        }
     }
 }

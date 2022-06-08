@@ -22,13 +22,14 @@ class ActualityExtension extends Extension
 
         $this->configureClass($config, $container);
 
+        $this->configureTranslation($config, $container);
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
         $loader->load('admin.yaml');
 
         $container->setParameter('wd_actuality.config', $config['configuration']);
         $container->setParameter('wd_actuality.seo', $config['seo']);
-
     }
 
     /**
@@ -37,9 +38,18 @@ class ActualityExtension extends Extension
      */
     public function configureClass($config, ContainerBuilder $container)
     {
-        // manager configuration
         $container->setParameter('wd_actuality.admin.content.user', $config['class']['user']);
         $container->setParameter('wd_actuality.admin.content.media', $config['class']['media']);
+    }
+
+    public function configureTranslation($config, ContainerBuilder $container)
+    {
+        if (!isset($config['translation']['locales']) || empty($config['translation']['locales'])) {
+            $container->setParameter('wd_actuality.translation.locales',["fr"]);
+        }else{
+            $container->setParameter('wd_actuality.translation.locales',$config['translation']['locales']);
+        }
+        $container->setParameter('wd_actuality.translation.default_locale', $config['translation']['default_locale']);
     }
 
     public function getAlias()

@@ -2,27 +2,26 @@
 
 namespace App\Repository\Actuality;
 
-use App\Entity\Actuality\ActualityMedia;
+use App\Entity\Actuality\ActualityTranslation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ActualityMedia>
+ * @extends ServiceEntityRepository<ActualityTranslation>
  *
- * @method ActualityMedia|null find($id, $lockMode = null, $lockVersion = null)
- * @method ActualityMedia|null findOneBy(array $criteria, array $orderBy = null)
- * @method ActualityMedia[]    findAll()
- * @method ActualityMedia[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ActualityTranslation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ActualityTranslation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ActualityTranslation[]    findAll()
+ * @method ActualityTranslation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActualityMediaRepository extends ServiceEntityRepository
+class ActualityTranslationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ActualityMedia::class);
+        parent::__construct($registry, ActualityTranslation::class);
     }
 
-    public function add(ActualityMedia $entity, bool $flush = false): void
+    public function add(ActualityTranslation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -31,7 +30,7 @@ class ActualityMediaRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(ActualityMedia $entity, bool $flush = false): void
+    public function remove(ActualityTranslation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -41,7 +40,7 @@ class ActualityMediaRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return ActualityMedia[] Returns an array of ActualityMedia objects
+//     * @return ActualityTranslation[] Returns an array of ActualityTranslation objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -55,7 +54,7 @@ class ActualityMediaRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?ActualityMedia
+//    public function findOneBySomeField($value): ?ActualityTranslation
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

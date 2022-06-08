@@ -4,6 +4,8 @@ namespace WebEtDesign\ActualityBundle\Controller;
 
 use App\Entity\Actuality\Actuality;
 use App\Entity\Actuality\Category;
+use App\Repository\Actuality\ActualityRepository;
+use App\Repository\Actuality\CategoryRepository;
 use DateTime;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
@@ -25,29 +27,39 @@ class ActualityController extends BaseCmsController
     private ParameterBagInterface $parameterBag;
 
     private bool $useCategory;
+    private CategoryRepository $categoryRepo;
+    private ActualityRepository $actualityRepo;
 
     /**
      * @inheritDoc
     */
-    public function __construct($config, ParameterBagInterface $parameterBag) {
+    public function __construct(
+        $config,
+        ParameterBagInterface $parameterBag,
+        CategoryRepository $categoryRepo,
+        ActualityRepository $actualityRepo,
+    ) {
         $this->config = $config;
         $this->parameterBag = $parameterBag;
         $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
+        $this->categoryRepo = $categoryRepo;
+        $this->actualityRepo = $actualityRepo;
     }
 
     /**
-     * @param Request $req$now = new DateTime('now');
-     * @param Category $category
-     * @param Actuality $actuality
+     * @param Request $req
      * @return Response|ResourceNotFoundException
-     * @ParamConverter("actuality", class="App\Entity\Actuality\Actuality", options={"mapping": {"actuality": "slug"}})
-     * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
-    public function __invoke(Request $request, Actuality $actuality, Category $category = null){
+    public function __invoke(Request $request, $actuality, $category = null){
+
+        $locale = $request->getLocale();
+        $category = $this->categoryRepo->findOneBySlug($category, $locale);
+        $actuality = $this->actualityRepo->findOneBySlug($actuality, $locale);
 
         if (!$actuality || ($this->useCategory && !$category)) {
             return new ResourceNotFoundException();
         }
+
 
         $now = new DateTime('now');
 
@@ -69,18 +81,17 @@ class ActualityController extends BaseCmsController
 
     /**
      * @param Request $request
-     * @param Category|null $category
      * @return Response
-     * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
-    public function list(Request $request, Category $category = null)
+    public function list(Request $request, $category)
     {
-        $actualityRepo = $this->getDoctrine()->getRepository(Actuality::class);
+        $locale = $request->getLocale();
+        $category = $this->categoryRepo->findOneBySlug($category, $locale);
 
         if ($category) {
-            $qb = $actualityRepo->findPublishedByCategory($category);
+            $qb = $this->actualityRepo->findPublishedByCategory($category);
         } else {
-            $qb = $actualityRepo->findPublished();
+            $qb = $this->actualityRepo->findPublished();
         }
 
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();

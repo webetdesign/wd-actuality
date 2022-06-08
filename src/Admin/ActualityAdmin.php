@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace WebEtDesign\ActualityBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsFormsType;
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use WebEtDesign\ActualityBundle\Form\Admin\ActualityContentTranslationType;
+use WebEtDesign\ActualityBundle\Form\Admin\ActualityExcerptTranslationType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaCollectionType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -21,6 +29,8 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Validator\Constraints\NotNull;
+use WebEtDesign\ActualityBundle\Form\Admin\ActualityTitleTranslationType;
+use WebEtDesign\MailerBundle\Form\Admin\MailTitleTranslationType;
 use WebEtDesign\MediaBundle\Form\Type\WDMediaType;
 use WebEtDesign\SeoBundle\Admin\SmoOpenGraphAdminTrait;
 use WebEtDesign\SeoBundle\Admin\SmoTwitterAdminTrait;
@@ -29,16 +39,22 @@ use Sonata\Form\Type\DateTimePickerType;
 final class ActualityAdmin extends AbstractAdmin
 {
     private bool $useCategory;
+    private array $locales;
+    private string $defaultLocale;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(
         ?string $code = null,
         ?string $class = null,
         ?string $baseControllerName = null,
-        array $actualityConfig
+        ParameterBagInterface $parameterBag,
     )
     {
         parent::__construct($code, $class, $baseControllerName);
-        $this->useCategory = $actualityConfig['use_category'];
+        $this->parameterBag = $parameterBag;
+        $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
+        $this->locales = $parameterBag->get('wd_actuality.translation.locales');
+        $this->defaultLocale = $parameterBag->get('wd_actuality.translation.default_locale');
     }
 
     use SmoOpenGraphAdminTrait;
@@ -60,16 +76,32 @@ final class ActualityAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-//            ->add('title')
-//            ->add('slug')
+            ->add('title', CallbackFilter::class, [
+                'callback' => function (ProxyQueryInterface $query, $alias, $field, $data) {
+                    if (!$data instanceof FilterData) {
+                        return false;
+                    }
+
+                    $query
+                        ->join($alias . '.translations', 't')
+                        ->andWhere('LOWER(t.title) LIKE :title')
+                        ->andWhere('t.locale = :locale')
+                        ->setParameters([
+                            'title' => '%' . strtolower($data->getValue()) . '%',
+                            'locale' => $this->defaultLocale
+                        ]);
+
+                    return true;
+                }
+            ])
             ->add('published');
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('id')
-//            ->addIdentifier('title')
+            ->addIdentifier('id')
+            ->add('title')
         ;
         if ($this->useCategory) {
            $listMapper->add('category');
@@ -100,7 +132,13 @@ final class ActualityAdmin extends AbstractAdmin
 
         $formMapper
             ->with('General', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
-            ->add('title')
+            ->add('translationsTitle', TranslationsFormsType::class, [
+                'label'            => false,
+                'locales'          => $this->locales,
+                'default_locale'   => $this->defaultLocale,
+                'required_locales' => [$this->defaultLocale],
+                'form_type'        => ActualityTitleTranslationType::class,
+            ])
             ->add('thumbnail', WDMediaType::class, [
                     'category' => 'actuality_thumbnail'
             ]);
@@ -139,21 +177,21 @@ final class ActualityAdmin extends AbstractAdmin
             ->tab('content');
         $formMapper
             ->with('Content', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
-//            ->add('excerpt', CKEditorType::class,
-//                [
-//                    'required'         => false,
-//                    'attr'             => [
-//                        'rows' => 5
-//                    ],
-//                    'help' => 'A short introducing text'
-//                ])
-//            ->add('content', CKEditorType::class,
-//                [
-//                    'required'         => false,
-//                    'attr'             => [
-//                        'rows' => 15
-//                    ]
-//                ])
+            ->add('translationsExcerpt', TranslationsFormsType::class, [
+                'label'            => false,
+                'locales'          => $this->locales,
+                'default_locale'   => $this->defaultLocale,
+                'required_locales' => [$this->defaultLocale],
+                'form_type'        => ActualityExcerptTranslationType::class,
+            ])
+            ->add('translationsContent', TranslationsFormsType::class, [
+                'label'            => false,
+                'locales'          => $this->locales,
+                'default_locale'   => $this->defaultLocale,
+                'required_locales' => [$this->defaultLocale],
+                'form_type'        => ActualityContentTranslationType::class,
+            ])
+
             ->end()
             ->with('Images', ['class' => 'col-md-4','box_class' => 'box box-primary'])
             ->add('pictures', ActualityMediaCollectionType::class, [

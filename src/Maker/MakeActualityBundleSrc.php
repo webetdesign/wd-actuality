@@ -95,6 +95,14 @@ class MakeActualityBundleSrc implements MakerInterface
                 'targetPath' => 'src/Repository/Actuality/ActualityMediaRepository.php',
                 'templateName' => $this::SKELETON_DIR  . '/repository/ActualityMediaRepository.php'
             ],
+            [
+                'targetPath' => 'src/Repository/Actuality/CategoryTranslationRepository.php',
+                'templateName' => $this::SKELETON_DIR  . '/repository/CategoryTranslationRepository.php'
+            ],
+            [
+                'targetPath' => 'src/Repository/Actuality/ActualityTranslationRepository.php',
+                'templateName' => $this::SKELETON_DIR  . '/repository/ActualityTranslationRepository.php'
+            ],
         ];
 
         $this->generateFiles($repositories);
@@ -114,6 +122,14 @@ class MakeActualityBundleSrc implements MakerInterface
             [
                 'targetPath' => 'src/Entity/Actuality/ActualityMedia.php',
                 'templateName' => $this::SKELETON_DIR  . '/entity/ActualityMedia.php'
+            ],
+            [
+                'targetPath' => 'src/Entity/Actuality/CategoryTranslation.php',
+                'templateName' => $this::SKELETON_DIR  . '/entity/CategoryTranslation.php'
+            ],
+            [
+                'targetPath' => 'src/Entity/Actuality/ActualityTranslation.php',
+                'templateName' => $this::SKELETON_DIR  . '/entity/ActualityTranslation.php'
             ],
         ];
 

@@ -6,6 +6,7 @@ use App\Entity\Actuality\Actuality;
 use App\Entity\Actuality\Category;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use WebEtDesign\ActualityBundle\Entity\WDCategory;
 
@@ -22,6 +23,22 @@ class ActualityRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Actuality::class);
+    }
+
+    public function findOneBySlug($slug, $locale)
+    {
+        try {
+            return $this->createQueryBuilder('a')
+                ->leftJoin('a.translations', 'tr')
+                ->andWhere('tr.slug = :slug')
+                ->andWhere('tr.locale = :locale')
+                ->setParameter('slug', $slug)
+                ->setParameter('locale', $locale)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return false;
+        }
     }
 
     public function add(Actuality $entity, bool $flush = false): void
@@ -85,29 +102,4 @@ class ActualityRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
-//    /**
-//     * @return Category[] Returns an array of Category objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Category
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
