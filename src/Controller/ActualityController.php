@@ -7,17 +7,20 @@ use App\Entity\Actuality\Category;
 use App\Repository\Actuality\ActualityRepository;
 use App\Repository\Actuality\CategoryRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use WebEtDesign\ActualityBundle\Cms\ActualityVars;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
 
+#[AsController]
 class ActualityController extends BaseCmsController
 {
     protected $config;
@@ -27,8 +30,7 @@ class ActualityController extends BaseCmsController
     private ParameterBagInterface $parameterBag;
 
     private bool $useCategory;
-    private CategoryRepository $categoryRepo;
-    private ActualityRepository $actualityRepo;
+    private EntityManagerInterface $em;
 
     /**
      * @inheritDoc
@@ -36,14 +38,12 @@ class ActualityController extends BaseCmsController
     public function __construct(
         $config,
         ParameterBagInterface $parameterBag,
-        CategoryRepository $categoryRepo,
-        ActualityRepository $actualityRepo,
+        EntityManagerInterface $em
     ) {
         $this->config = $config;
         $this->parameterBag = $parameterBag;
         $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
-        $this->categoryRepo = $categoryRepo;
-        $this->actualityRepo = $actualityRepo;
+        $this->em = $em;
     }
 
     /**
@@ -51,15 +51,16 @@ class ActualityController extends BaseCmsController
      * @return Response|ResourceNotFoundException
      */
     public function __invoke(Request $request, $actuality, $category = null){
-
         $locale = $request->getLocale();
-        $category = $this->categoryRepo->findOneBySlug($category, $locale);
-        $actuality = $this->actualityRepo->findOneBySlug($actuality, $locale);
+        $actuRepo = $this->em->getRepository(Actuality::class);
+        $catRepo = $this->em->getRepository(Category::class);
+        $category = $catRepo->findOneBySlug($category, $locale);
+        $actuality = $actuRepo->findOneBySlug($actuality, $locale);
+
 
         if (!$actuality || ($this->useCategory && !$category)) {
             return new ResourceNotFoundException();
         }
-
 
         $now = new DateTime('now');
 
@@ -83,15 +84,18 @@ class ActualityController extends BaseCmsController
      * @param Request $request
      * @return Response
      */
-    public function list(Request $request, $category)
+    public function list(Request $request, $category = null)
     {
         $locale = $request->getLocale();
-        $category = $this->categoryRepo->findOneBySlug($category, $locale);
+        $actuRepo = $this->em->getRepository(Actuality::class);
+        $catRepo = $this->em->getRepository(Category::class);
+
+        $category = $catRepo->findOneBySlug($category, $locale);
 
         if ($category) {
-            $qb = $this->actualityRepo->findPublishedByCategory($category);
+            $qb = $actuRepo->findPublishedByCategory($category);
         } else {
-            $qb = $this->actualityRepo->findPublished();
+            $qb = $actuRepo->findPublished();
         }
 
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();

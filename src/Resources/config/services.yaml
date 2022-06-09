@@ -8,6 +8,8 @@ services:
     autowire: true
     arguments:
       - '%wd_actuality.config%'
+      - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'
+      - '@Doctrine\ORM\EntityManagerInterface'
     tags: ['controller.service_arguments']
 
   WebEtDesign\ActualityBundle\EventListener\SitemapSubscriber:
