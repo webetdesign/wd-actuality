@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityTitleTranslationType;
 use WebEtDesign\ActualityBundle\Form\Admin\CategoryTitleTranslationType;
 
-final class CategoryAdmin extends AbstractAdmin
+class CategoryAdmin extends AbstractAdmin
 {
     private array $locales;
     private string $defaultLocale;

@@ -36,7 +36,7 @@ use WebEtDesign\SeoBundle\Admin\SmoOpenGraphAdminTrait;
 use WebEtDesign\SeoBundle\Admin\SmoTwitterAdminTrait;
 use Sonata\Form\Type\DateTimePickerType;
 
-final class ActualityAdmin extends AbstractAdmin
+class ActualityAdmin extends AbstractAdmin
 {
     private bool $useCategory;
     private array $locales;
