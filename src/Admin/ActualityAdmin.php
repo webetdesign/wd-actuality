@@ -38,10 +38,10 @@ use Sonata\Form\Type\DateTimePickerType;
 
 class ActualityAdmin extends AbstractAdmin
 {
-    private bool $useCategory;
-    private array $locales;
-    private string $defaultLocale;
-    private ParameterBagInterface $parameterBag;
+    protected bool $useCategory;
+    protected array $locales;
+    protected string $defaultLocale;
+    protected ParameterBagInterface $parameterBag;
 
     public function __construct(
         ?string $code = null,

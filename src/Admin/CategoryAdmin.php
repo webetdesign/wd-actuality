@@ -21,9 +21,9 @@ use WebEtDesign\ActualityBundle\Form\Admin\CategoryTitleTranslationType;
 
 class CategoryAdmin extends AbstractAdmin
 {
-    private array $locales;
-    private string $defaultLocale;
-    private ParameterBagInterface $parameterBag;
+    protected array $locales;
+    protected string $defaultLocale;
+    protected ParameterBagInterface $parameterBag;
 
     protected $datagridValues = [
         '_page'       => 1,
