@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace WebEtDesign\ActualityBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsFormsType;
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
@@ -13,28 +12,19 @@ use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityContentTranslationType;
-use WebEtDesign\ActualityBundle\Form\Admin\ActualityExcerptTranslationType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaCollectionType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityMediaType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\CollectionType;
-use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Validator\Constraints\NotNull;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityTitleTranslationType;
-use WebEtDesign\MailerBundle\Form\Admin\MailTitleTranslationType;
 use WebEtDesign\MediaBundle\Form\Type\WDMediaType;
 use WebEtDesign\SeoBundle\Admin\SmoOpenGraphAdminTrait;
 use WebEtDesign\SeoBundle\Admin\SmoTwitterAdminTrait;
-use Sonata\Form\Type\DateTimePickerType;
 
 class ActualityAdmin extends AbstractAdmin
 {
@@ -167,7 +157,8 @@ class ActualityAdmin extends AbstractAdmin
             ])
             ->add('publishedAt', DateTimeType::class, [
                 'widget' => 'single_text',
-                'attr'           => ["autocomplete" => "off"]
+                'attr'           => ["autocomplete" => "off"],
+                'required' => false
             ])
             ->end();
 

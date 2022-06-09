@@ -12,6 +12,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use WebEtDesign\MediaBundle\Entity\Media;
 use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
@@ -91,6 +93,18 @@ abstract class WDActuality implements TranslatableInterface
         }
 
         return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), $method);
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->published && $this->publishedAt == null) {
+            $context->buildViolation('Champ obligatoire')
+                ->atPath('publishedAt')
+                ->addViolation();
+        }
     }
 
     public function getSlug()
