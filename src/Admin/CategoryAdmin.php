@@ -12,7 +12,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class CategoryAdmin extends AbstractAdmin
+class CategoryAdmin extends AbstractAdmin
 {
 
     protected $datagridValues = [
