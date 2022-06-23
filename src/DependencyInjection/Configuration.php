@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('result_limit')->defaultValue(9)->end()
                         ->scalarNode('use_category')->defaultValue(true)->end()
+                        ->scalarNode('generate_sitemap')->defaultValue(true)->end()
                     ->end()
                 ->end()
             ->end();

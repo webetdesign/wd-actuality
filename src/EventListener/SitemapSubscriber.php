@@ -24,7 +24,8 @@ class SitemapSubscriber implements EventSubscriberInterface
     private ParameterBagInterface  $parameterBag;
     private EntityManagerInterface $entityManager;
     private bool $useCategory;
-    
+    private bool $generateSitemap;
+
     /**
      * @param UrlGeneratorInterface $urlGenerator
      * @param ParameterBagInterface $parameterBag
@@ -39,6 +40,7 @@ class SitemapSubscriber implements EventSubscriberInterface
         $this->parameterBag  = $parameterBag;
         $this->entityManager = $entityManager;
         $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
+        $this->generateSitemap = $parameterBag->get('wd_actuality.config')['generate_sitemap'];
     }
 
     public static function getSubscribedEvents(): array
@@ -53,10 +55,12 @@ class SitemapSubscriber implements EventSubscriberInterface
      */
     public function populate(SitemapPopulateEvent $event): void
     {
-        if ($this->useCategory) {
-            $this->useCategoryRegisterDynamicUrls($event->getUrlContainer());
-        }else{
-            $this->notUseCategoryRegisterDynamicUrls($event->getUrlContainer());
+        if ($this->generateSitemap) {
+            if ($this->useCategory) {
+                $this->useCategoryRegisterDynamicUrls($event->getUrlContainer());
+            }else{
+                $this->notUseCategoryRegisterDynamicUrls($event->getUrlContainer());
+            }
         }
     }
 
