@@ -4,13 +4,10 @@ namespace WebEtDesign\ActualityBundle\Controller;
 
 use App\Entity\Actuality\Actuality;
 use App\Entity\Actuality\Category;
-use App\Repository\Actuality\ActualityRepository;
-use App\Repository\Actuality\CategoryRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
