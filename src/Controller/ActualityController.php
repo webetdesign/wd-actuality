@@ -98,8 +98,8 @@ class ActualityController extends BaseCmsController
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
-        $pager->setCurrentPage($request->query->get('page', 1));
         $pager->setMaxPerPage((int) $request->query->get('limit', $this->config['result_limit']));
+        $pager->setCurrentPage($request->query->get('page', 1));
 
         return $this->defaultRender([
             'categories' => $categories,
