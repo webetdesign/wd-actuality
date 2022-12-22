@@ -40,8 +40,7 @@
     "webetdesign/wd-cms": "^3.0|dev-master",
     "webetdesign/wd-seo-bundle": "^3.0",
     "babdev/pagerfanta-bundle": "^3.0",
-    "pagerfanta/doctrine-orm-adapter": "^3.0",
-    "pagerfanta/twig": "^3.0"
+    "pagerfanta/pagerfanta": "^3.0",
   },
   "require-dev": {
     "symfony/filesystem": "^5.0",
