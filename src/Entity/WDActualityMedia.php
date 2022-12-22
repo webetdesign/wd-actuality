@@ -24,7 +24,7 @@ class WDActualityMedia
     protected int $position;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Actuality::class, inversedBy="actualityMedia"))
+     * @ORM\ManyToOne(targetEntity=Actuality::class, inversedBy="pictures"))
      * @ORM\JoinColumn(nullable=true)
      */
     protected ?Actuality $actuality = null;
