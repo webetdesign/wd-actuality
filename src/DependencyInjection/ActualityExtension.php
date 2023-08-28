@@ -51,11 +51,4 @@ class ActualityExtension extends Extension
         }
         $container->setParameter('wd_actuality.translation.default_locale', $config['translation']['default_locale']);
     }
-
-    public function getAlias()
-    {
-        return 'wd_actuality';
-    }
-
-
 }
