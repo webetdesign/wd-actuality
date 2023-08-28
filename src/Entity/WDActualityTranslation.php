@@ -21,7 +21,7 @@ abstract class WDActualityTranslation  implements TranslationInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

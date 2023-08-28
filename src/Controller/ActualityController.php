@@ -4,13 +4,10 @@ namespace WebEtDesign\ActualityBundle\Controller;
 
 use App\Entity\Actuality\Actuality;
 use App\Entity\Actuality\Category;
-use App\Repository\Actuality\ActualityRepository;
-use App\Repository\Actuality\CategoryRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,8 +98,8 @@ class ActualityController extends BaseCmsController
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
-        $pager->setCurrentPage($request->query->get('page', 1));
         $pager->setMaxPerPage((int) $request->query->get('limit', $this->config['result_limit']));
+        $pager->setCurrentPage($request->query->get('page', 1));
 
         return $this->defaultRender([
             'categories' => $categories,
