@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use WebEtDesign\ActualityBundle\Cms\ActualityVars;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
@@ -56,7 +57,7 @@ class ActualityController extends BaseCmsController
 
 
         if (!$actuality || ($this->useCategory && !$category)) {
-            return new ResourceNotFoundException();
+            throw new NotFoundHttpException();
         }
 
         $now = new DateTime('now');
