@@ -13,7 +13,7 @@ use WebEtDesign\ActualityBundle\Entity\WDActuality;
 
 class ActualityExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
 
         $configuration = new Configuration();
@@ -42,7 +42,7 @@ class ActualityExtension extends Extension
         $container->setParameter('wd_actuality.admin.content.media', $config['class']['media']);
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'wd_actuality';
     }

@@ -8,17 +8,17 @@ use App\Entity\User\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use WebEtDesign\ActualityBundle\Controller\ActualityController;
 use WebEtDesign\CmsBundle\Attribute\AsCmsPage;
-use WebEtDesign\CmsBundle\CmsBlock\CheckboxBlock;
-use WebEtDesign\CmsBundle\CmsBlock\ChoiceBlock;
-use WebEtDesign\CmsBundle\CmsBlock\EntityBlock;
-use WebEtDesign\CmsBundle\CmsBlock\StaticBlock;
-use WebEtDesign\CmsBundle\CmsBlock\TextareaBlock;
-use WebEtDesign\CmsBundle\CmsBlock\TextBlock;
-use WebEtDesign\CmsBundle\CmsBlock\WysiwygBlock;
-use WebEtDesign\CmsBundle\CmsTemplate\AbstractPage;
-use WebEtDesign\CmsBundle\DependencyInjection\Models\BlockDefinition;
-use WebEtDesign\CmsBundle\DependencyInjection\Models\RouteAttributeDefinition;
-use WebEtDesign\CmsBundle\DependencyInjection\Models\RouteDefinition;
+use WebEtDesign\CmsBundle\CMS\Block\CheckboxBlock;
+use WebEtDesign\CmsBundle\CMS\Block\ChoiceBlock;
+use WebEtDesign\CmsBundle\CMS\Block\EntityBlock;
+use WebEtDesign\CmsBundle\CMS\Block\StaticBlock;
+use WebEtDesign\CmsBundle\CMS\Block\TextareaBlock;
+use WebEtDesign\CmsBundle\CMS\Block\TextBlock;
+use WebEtDesign\CmsBundle\CMS\Block\WysiwygBlock;
+use WebEtDesign\CmsBundle\CMS\Template\AbstractPage;
+use WebEtDesign\CmsBundle\CMS\Configuration\BlockDefinition;
+use WebEtDesign\CmsBundle\CMS\Configuration\RouteAttributeDefinition;
+use WebEtDesign\CmsBundle\CMS\Configuration\RouteDefinition;
 use WebEtDesign\MediaBundle\Blocks\MediaBlock;
 
 
