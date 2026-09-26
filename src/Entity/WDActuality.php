@@ -200,34 +200,25 @@ abstract class WDActuality
     }
 
     /**
+     * Alias of getPictures(): the association is mapped on $pictures.
+     *
      * @return Collection<int, ActualityMedia>
      */
     public function getActualityMedia(): Collection
     {
-        return $this->actualityMedia;
+        return $this->getPictures();
     }
 
     public function addActualityMedium(ActualityMedia $actualityMedium): self
     {
-        if (!$this->actualityMedia->contains($actualityMedium)) {
-            $this->actualityMedia[] = $actualityMedium;
-            $actualityMedium->setActuality($this);
-        }
-
-        return $this;
+        return $this->addPicture($actualityMedium);
     }
 
     public function removeActualityMedium(ActualityMedia $actualityMedium): self
     {
-        if ($this->actualityMedia->removeElement($actualityMedium)) {
-            // set the owning side to null (unless already changed)
-            if ($actualityMedium->getActuality() === $this) {
-                $actualityMedium->setActuality(null);
-            }
-        }
-
-        return $this;
+        return $this->removePicture($actualityMedium);
     }
+
     /**
      * @return Collection<int, ActualityMedia>
      */
