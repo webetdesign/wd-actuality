@@ -7,7 +7,8 @@ use App\Entity\Actuality\Category;
 use DateTime;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +27,14 @@ class ActualityController extends BaseCmsController
 
     private bool $useCategory;
 
+    private ManagerRegistry $doctrine;
+
     /**
      * @inheritDoc
     */
-    public function __construct($config, ParameterBagInterface $parameterBag) {
+    public function __construct($config, ParameterBagInterface $parameterBag, ManagerRegistry $doctrine) {
         $this->config = $config;
+        $this->doctrine = $doctrine;
         $this->parameterBag = $parameterBag;
         $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
     }
@@ -40,10 +44,12 @@ class ActualityController extends BaseCmsController
      * @param Category $category
      * @param Actuality $actuality
      * @return Response|ResourceNotFoundException
-     * @ParamConverter("actuality", class="App\Entity\Actuality\Actuality", options={"mapping": {"actuality": "slug"}})
-     * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
-    public function __invoke(Request $request, Actuality $actuality, Category $category = null){
+    public function __invoke(
+        Request $request,
+        #[MapEntity(mapping: ['actuality' => 'slug'])] Actuality $actuality,
+        #[MapEntity(mapping: ['category' => 'slug'])] ?Category $category = null
+    ){
 
         if (!$actuality || ($this->useCategory && !$category)) {
             return new ResourceNotFoundException();
@@ -71,11 +77,10 @@ class ActualityController extends BaseCmsController
      * @param Request $request
      * @param Category|null $category
      * @return Response
-     * @ParamConverter("category", class="App\Entity\Actuality\Category", options={"mapping": {"category": "slug"}})
      */
-    public function list(Request $request, Category $category = null)
+    public function list(Request $request, #[MapEntity(mapping: ['category' => 'slug'])] ?Category $category = null)
     {
-        $actualityRepo = $this->getDoctrine()->getRepository(Actuality::class);
+        $actualityRepo = $this->doctrine->getRepository(Actuality::class);
 
         if ($category) {
             $qb = $actualityRepo->findPublishedByCategory($category);
@@ -83,7 +88,7 @@ class ActualityController extends BaseCmsController
             $qb = $actualityRepo->findPublished();
         }
 
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $categories = $this->doctrine->getRepository(Category::class)->findAll();
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
         $pager->setCurrentPage($request->query->get('page', 1));

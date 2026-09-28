@@ -6,6 +6,9 @@ services:
 
   WebEtDesign\ActualityBundle\Controller\ActualityController:
     autowire: true
+    # Registers it as a service subscriber: without it the controller got the global
+    # container, where twig is private, and render() failed.
+    autoconfigure: true
     arguments:
       - '%wd_actuality.config%'
     tags: ['controller.service_arguments']
