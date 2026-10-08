@@ -52,7 +52,7 @@
         "webetdesign/wd-cms": "^7.4",
         "webetdesign/wd-seo-bundle": "^7.4",
         "babdev/pagerfanta-bundle": "^4.0",
-        "pagerfanta/pagerfanta": "^3.0"
+        "pagerfanta/pagerfanta": "^3.0 || ^4.0"
     },
     "require-dev": {
         "symfony/filesystem": "^7.4",
