@@ -31,14 +31,8 @@ class CategoryAdmin extends AbstractAdmin
         '_sort_by'    => 'position',
     ];
 
-    public function __construct(
-        ?string $code = null,
-        ?string $class = null,
-        ?string $baseControllerName = null,
-        ParameterBagInterface $parameterBag,
-    )
+    public function setParameterBag(ParameterBagInterface $parameterBag): void
     {
-        parent::__construct($code, $class, $baseControllerName);
         $this->parameterBag = $parameterBag;
         $this->locales = $parameterBag->get('wd_actuality.translation.locales');
         $this->defaultLocale = $parameterBag->get('wd_actuality.translation.default_locale');
