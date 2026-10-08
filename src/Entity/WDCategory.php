@@ -17,33 +17,29 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use WebEtDesign\RgpdBundle\Annotations\Exportable;
 
 /**
- * @ORM\MappedSuperclass()
  * @method string setSlug(?string $str)
  * @method string getTitle()
  * @method string setTitle(?string $str)
  */
+#[ORM\MappedSuperclass]
 abstract class WDCategory implements TranslatableInterface
 {
     use TimestampableEntity;
     use TranslatableTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Gedmo\SortablePosition
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Gedmo\SortablePosition]
     protected ?int $position = null;
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="Actuality", mappedBy="category")
      */
+    #[ORM\OneToMany(targetEntity: Actuality::class, mappedBy: 'category')]
     protected Collection $actualities;
 
     public function __construct()

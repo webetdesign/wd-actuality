@@ -6,33 +6,23 @@ use App\Entity\Actuality\Actuality;
 use Doctrine\ORM\Mapping as ORM;
 use WebEtDesign\MediaBundle\Entity\Media;
 
-/**
- * @ORM\MappedSuperclass()
- */
+#[ORM\MappedSuperclass]
 class WDActualityMedia
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     protected int $position;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Actuality::class, inversedBy="pictures"))
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: Actuality::class, inversedBy: 'pictures')]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?Actuality $actuality = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Media::class,cascade={"persist"}))
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Media::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
     protected Media $media;
 
     public function getId(): ?int
