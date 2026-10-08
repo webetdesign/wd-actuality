@@ -44,13 +44,13 @@
         "symfony/options-resolver": "^7.4",
         "symfony/property-access": "^7.4",
         "symfony/routing": "^7.4",
-        "symfony/templating": "^6.4",
+
         "symfony/translation": "^7.4",
         "symfony/twig-bridge": "^7.4",
         "symfony/twig-bundle": "^7.4",
         "symfony/validator": "^7.4",
-        "webetdesign/wd-cms": "7.0.0",
-        "webetdesign/wd-seo-bundle": "7.0.0",
+        "webetdesign/wd-cms": "^7.4",
+        "webetdesign/wd-seo-bundle": "^7.4",
         "babdev/pagerfanta-bundle": "^4.0",
         "pagerfanta/pagerfanta": "^3.0"
     },
