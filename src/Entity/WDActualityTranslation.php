@@ -2,6 +2,7 @@
 
 namespace WebEtDesign\ActualityBundle\Entity;
 
+use A2lix\TranslationFormBundle\Helper\OneLocaleInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
@@ -10,9 +11,18 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 #[ORM\MappedSuperclass]
-abstract class WDActualityTranslation  implements TranslationInterface
+abstract class WDActualityTranslation implements TranslationInterface, OneLocaleInterface
 {
     use TranslationTrait;
+
+    /** A2lix 4 writes the locale directly; Knp stores it as a protected property. */
+    public function __set(string $name, mixed $value): void
+    {
+        if ('locale' !== $name) {
+            throw new \LogicException(sprintf('Cannot set inaccessible property %s::$%s.', static::class, $name));
+        }
+        $this->setLocale($value);
+    }
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

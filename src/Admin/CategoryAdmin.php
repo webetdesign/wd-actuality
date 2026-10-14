@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WebEtDesign\ActualityBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsFormsType;
+use Doctrine\Common\Collections\Collection;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -16,6 +17,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormInterface;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityTitleTranslationType;
 use WebEtDesign\ActualityBundle\Form\Admin\CategoryTitleTranslationType;
 
@@ -84,9 +86,10 @@ class CategoryAdmin extends AbstractAdmin
         $formMapper
             ->add('translationsTitle', TranslationsFormsType::class, [
                 'label'            => false,
-                'locales'          => $this->locales,
+                'enabled_locales'  => $this->locales,
                 'default_locale'   => $this->defaultLocale,
                 'required_locales' => [$this->defaultLocale],
+                'form_options'     => ['getter' => static fn (Collection $data, FormInterface $form) => $data->get($form->getName())],
                 'form_type'        => CategoryTitleTranslationType::class,
             ]);
     }
