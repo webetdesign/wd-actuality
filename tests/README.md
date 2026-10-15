@@ -1,5 +1,9 @@
 # Actuality cross-repository metadata regression
 
+## Symfony Form / Sonata service contracts
+
+Run `php tests/symfony-sonata-contracts.php /path/to/IMM`, then the same command with `--services`. The first mode checks all six `void` signatures before autoload (incompatible inheritance is fatal), then loads the actual types against Symfony and checks their return types. The second loads `admin.yaml` into a minimal DI container and verifies that both admins construct without Sonata constructor deprecations, declare `model_class`, preserve model identity and translation domains, and receive their parameter bag/locales. It checks that service-code and configured-controller defaults remain unchanged; the tag identity setters are exercised explicitly, not through the full Sonata compiler. Full application container compilation remains a separate integration gate. No database connection or vendor writes.
+
 Run `php tests/doctrine-attributes.php /path/to/IMM` with the application entities and dependencies from the integration checkout. This is explicitly an IMM integration test, not a claim about every consuming application.
 
 The test validates the five concrete entities, inherited fields/associations, multilingual KNP translations and locale uniqueness, picture ordering/cascades, Gedmo attributes, and publication callback without opening a database connection. It works with ORM 2.20 and ORM 3.3+. An optional second argument compares the ORM 2 complete metadata snapshot. Cross-major comparison of all application mappings is provided by IMM `tests/Doctrine/runtime-metadata.php`; it normalises only documented internal representations.
