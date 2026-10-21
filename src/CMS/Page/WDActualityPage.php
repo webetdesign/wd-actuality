@@ -15,10 +15,10 @@ use WebEtDesign\CmsBundle\CmsBlock\StaticBlock;
 use WebEtDesign\CmsBundle\CmsBlock\TextareaBlock;
 use WebEtDesign\CmsBundle\CmsBlock\TextBlock;
 use WebEtDesign\CmsBundle\CmsBlock\WysiwygBlock;
-use WebEtDesign\CmsBundle\CmsTemplate\AbstractPage;
+use WebEtDesign\CmsBundle\CMS\Template\AbstractPage;
 use WebEtDesign\CmsBundle\DependencyInjection\Models\BlockDefinition;
-use WebEtDesign\CmsBundle\DependencyInjection\Models\RouteAttributeDefinition;
-use WebEtDesign\CmsBundle\DependencyInjection\Models\RouteDefinition;
+use WebEtDesign\CmsBundle\CMS\Configuration\RouteAttributeDefinition;
+use WebEtDesign\CmsBundle\CMS\Configuration\RouteDefinition;
 use WebEtDesign\MediaBundle\Blocks\MediaBlock;
 
 
