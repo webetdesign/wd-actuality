@@ -7,7 +7,6 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OrderBy;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
@@ -15,14 +14,12 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use WebEtDesign\MediaBundle\Entity\Media;
-use WebEtDesign\RgpdBundle\Annotations\Exportable;
 use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
 use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
 use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
 use App\Entity\Actuality\ActualityMedia;
 
 /**
- * @ORM\MappedSuperclass()
  * @method string getTitle()
  * @method string setTitle(?string $str)
  * @method string getExcerpt()
@@ -31,6 +28,7 @@ use App\Entity\Actuality\ActualityMedia;
  * @method string setContent(?string $str)
  * @method string setSlug(?string $str)
  */
+#[ORM\MappedSuperclass]
 abstract class WDActuality implements TranslatableInterface
 {
     use TimestampableEntity;
@@ -39,41 +37,33 @@ abstract class WDActuality implements TranslatableInterface
     use SmoTwitterTrait;
     use TranslatableTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
     /**
      * @var null|Media
      *
-     * @ORM\ManyToOne(targetEntity="WebEtDesign\MediaBundle\Entity\Media")
      */
+    #[ORM\ManyToOne(targetEntity: Media::class)]
     protected ?Media $thumbnail = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected ?bool $published = false;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?DateTimeInterface $publishedAt = null;
 
     /**
      * @var null|Category
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="actualities")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'actualities')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: true)]
     protected ?Category $category = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ActualityMedia::class, mappedBy="actuality", cascade={"persist", "remove"}))
-     * @OrderBy({"position" = "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: ActualityMedia::class, mappedBy: 'actuality', cascade: ['persist', 'remove'])]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     protected Collection $pictures;
 
     public function __construct()
@@ -95,9 +85,7 @@ abstract class WDActuality implements TranslatableInterface
         return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), $method);
     }
 
-    /**
-     * @Assert\Callback
-     */
+    #[Assert\Callback]
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if ($this->published && $this->publishedAt == null) {
