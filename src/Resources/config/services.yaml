@@ -6,6 +6,7 @@ services:
 
   WebEtDesign\ActualityBundle\Controller\ActualityController:
     autowire: true
+    autoconfigure: true
     arguments:
       - '%wd_actuality.config%'
       - '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'

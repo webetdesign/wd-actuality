@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace WebEtDesign\ActualityBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsFormsType;
+use Doctrine\Common\Collections\Collection;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use WebEtDesign\ActualityBundle\Form\Admin\ActualityContentTranslationType;
@@ -33,14 +35,8 @@ class ActualityAdmin extends AbstractAdmin
     protected string $defaultLocale;
     protected ParameterBagInterface $parameterBag;
 
-    public function __construct(
-        ?string $code = null,
-        ?string $class = null,
-        ?string $baseControllerName = null,
-        ParameterBagInterface $parameterBag,
-    )
+    public function setParameterBag(ParameterBagInterface $parameterBag): void
     {
-        parent::__construct($code, $class, $baseControllerName);
         $this->parameterBag = $parameterBag;
         $this->useCategory = $parameterBag->get('wd_actuality.config')['use_category'];
         $this->locales = $parameterBag->get('wd_actuality.translation.locales');
@@ -123,9 +119,10 @@ class ActualityAdmin extends AbstractAdmin
             ->with('General', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
             ->add('translationsTitle', TranslationsFormsType::class, [
                 'label'            => false,
-                'locales'          => $this->locales,
+                'enabled_locales'  => $this->locales,
                 'default_locale'   => $this->defaultLocale,
                 'required_locales' => [$this->defaultLocale],
+                'form_options'     => ['getter' => static fn (Collection $data, FormInterface $form) => $data->get($form->getName())],
                 'form_type'        => ActualityTitleTranslationType::class,
             ])
             ->add('thumbnail', WDMediaType::class, [
@@ -171,9 +168,10 @@ class ActualityAdmin extends AbstractAdmin
                 ->with('Content', ['class' => 'col-md-8', 'box_class' => 'box box-primary'])
                 ->add('translationsContent', TranslationsFormsType::class, [
                     'label'            => false,
-                    'locales'          => $this->locales,
+                    'enabled_locales'  => $this->locales,
                     'default_locale'   => $this->defaultLocale,
                     'required_locales' => [$this->defaultLocale],
+                    'form_options'     => ['getter' => static fn (Collection $data, FormInterface $form) => $data->get($form->getName())],
                     'form_type'        => ActualityContentTranslationType::class,
                 ])
 

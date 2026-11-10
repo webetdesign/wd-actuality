@@ -23,12 +23,12 @@
         }
     ],
     "require": {
-        "a2lix/translation-form-bundle": "3.*",
+        "a2lix/translation-form-bundle": "^4.0",
         "php": "^8.2",
         "doctrine/common": "^2.0|^3.0",
         "doctrine/doctrine-bundle": "^1.10|^2.0",
         "doctrine/inflector": "^2.0",
-        "doctrine/orm": "^2.6",
+        "doctrine/orm": "^2.20 || ^3.3",
         "sonata-project/admin-bundle": "^4.0",
         "stof/doctrine-extensions-bundle": "^1.3",
         "symfony/config": "^7.4",
@@ -44,15 +44,15 @@
         "symfony/options-resolver": "^7.4",
         "symfony/property-access": "^7.4",
         "symfony/routing": "^7.4",
-        "symfony/templating": "^6.4",
+
         "symfony/translation": "^7.4",
         "symfony/twig-bridge": "^7.4",
         "symfony/twig-bundle": "^7.4",
         "symfony/validator": "^7.4",
-        "webetdesign/wd-cms": "7.0.0",
-        "webetdesign/wd-seo-bundle": "7.0.0",
+        "webetdesign/wd-cms": "^7.4",
+        "webetdesign/wd-seo-bundle": "^7.4",
         "babdev/pagerfanta-bundle": "^4.0",
-        "pagerfanta/pagerfanta": "^3.0"
+        "pagerfanta/pagerfanta": "^3.0 || ^4.0"
     },
     "require-dev": {
         "symfony/filesystem": "^7.4",

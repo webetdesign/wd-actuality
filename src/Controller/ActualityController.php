@@ -95,7 +95,7 @@ class ActualityController extends BaseCmsController
             $qb = $actuRepo->findPublished();
         }
 
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $categories = $this->em->getRepository(Category::class)->findAll();
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
         $pager->setMaxPerPage((int) $request->query->get('limit', $this->config['result_limit']));

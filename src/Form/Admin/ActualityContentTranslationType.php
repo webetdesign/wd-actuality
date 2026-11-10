@@ -15,7 +15,7 @@ use WebEtDesign\MailerBundle\Entity\MailTranslation;
 
 class ActualityContentTranslationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('excerpt', CKEditorType::class,
@@ -38,7 +38,7 @@ class ActualityContentTranslationType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ActualityTranslation::class,

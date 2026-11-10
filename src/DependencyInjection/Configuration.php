@@ -16,9 +16,9 @@ use WebEtDesign\CmsBundle\Entity\CmsGlobalVarsDelimiterEnum;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('wd_actuality');
+        $treeBuilder = new TreeBuilder('actuality');
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
